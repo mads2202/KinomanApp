@@ -1,12 +1,11 @@
 package com.mads2202.kinomanapp.retrofit.movieApi
 
-
 import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.UpcomingMovie
 import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.UpcomingMovieRequest
 import retrofit2.Response
-import retrofit2.http.GET
 
-interface ApiService {
-    @GET("movie/popular?api_key=0e1b920b4ec305f7bc0185bf9f16ee60")
-    public suspend fun getUpcomingMovies(): Response<UpcomingMovieRequest>
+class MovieHelperApiImpl(private val apiService: ApiService):MovieApiHelper {
+    override suspend fun getUsers(): Response<UpcomingMovieRequest> =apiService.getUpcomingMovies()
+
+
 }

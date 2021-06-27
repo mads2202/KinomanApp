@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mads2202.kinomanapp.R
-import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.Result
+import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.UpcomingMovie
 import com.mads2202.kinomanapp.ui.viewModels.MovieViewModel
 import com.mads2202.kinomanapp.util.MovieAdapter
 import com.mads2202.kinomanapp.util.Status
@@ -36,8 +36,10 @@ class MoviesListFragment : Fragment() {
         movieViewModel.results.observe(requireActivity(), Observer {
             when (it.status) {
                 Status.SUCCESS -> {
-                    val results = arrayListOf<Result>()
-                    it.data?.forEach { results.addAll(it.result) }
+                    val results = arrayListOf<UpcomingMovie>()
+                    it.data?.let { result ->
+                        results.addAll(result.results)
+                    }
                     renderResults(results)
                 }
             }
@@ -45,8 +47,8 @@ class MoviesListFragment : Fragment() {
     }
 
 
-    private fun renderResults(results: List<Result>) {
-        movieAdapter.addData(results)
+    private fun renderResults(upcomingMovies: List<UpcomingMovie>) {
+        movieAdapter.addData(upcomingMovies)
         movieAdapter.notifyDataSetChanged()
     }
 

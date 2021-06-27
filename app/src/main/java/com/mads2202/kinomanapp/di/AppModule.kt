@@ -16,10 +16,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 private const val BASE_URL = "https://api.themoviedb.org/3/"
 
 val appModule = module {
-    single { NetworkHelper(androidContext()) }
     single { provideOkHttpClient() }
     single { provideRetrofit(get(), BASE_URL) }
     single { provideApiService(get()) }
+    single { provideNetworkHelper(androidContext()) }
 }
 
 private fun provideOkHttpClient(): OkHttpClient {

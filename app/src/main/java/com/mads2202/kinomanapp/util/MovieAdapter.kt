@@ -5,21 +5,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mads2202.kinomanapp.databinding.MovieListItemLayoutBinding
-import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.Result
+import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.UpcomingMovie
 
-class MovieAdapter(val results: ArrayList<Result>) :
+class MovieAdapter(val upcomingMovies: ArrayList<UpcomingMovie>) :
     RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
 
     inner class MovieViewHolder(val binding: MovieListItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(result: Result) {
+        fun bind(upcomingMovie: UpcomingMovie) {
             Glide.with(binding.root)
-                .load(result.poster_path)
+                .load(upcomingMovie.poster_path)
                 .thumbnail(0.3f)
                 .into(binding.poster)
-            binding.movieTitle.text = result.title
-            binding.movieReleaseDate.text = result.release_date
+            binding.movieTitle.text = upcomingMovie.title
+            binding.movieReleaseDate.text = upcomingMovie.release_date
             binding.movieRating
         }
 
@@ -34,14 +34,14 @@ class MovieAdapter(val results: ArrayList<Result>) :
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(results[position])
+        holder.bind(upcomingMovies[position])
     }
 
     override fun getItemCount(): Int {
-        return results.size
+        return upcomingMovies.size
     }
 
-    fun addData(list: List<Result>) {
-        results.addAll(list)
+    fun addData(list: List<UpcomingMovie>) {
+        upcomingMovies.addAll(list)
     }
 }
