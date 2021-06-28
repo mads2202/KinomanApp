@@ -15,7 +15,7 @@ class MovieAdapter(val upcomingMovies: ArrayList<UpcomingMovie>) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(upcomingMovie: UpcomingMovie) {
             Glide.with(binding.root)
-                .load(upcomingMovie.poster_path)
+                .load("https://image.tmdb.org/t/p/original/"+upcomingMovie.poster_path)
                 .thumbnail(0.3f)
                 .into(binding.poster)
             binding.movieTitle.text = upcomingMovie.title

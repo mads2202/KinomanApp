@@ -3,7 +3,6 @@ package com.mads2202.kinomanapp.ui.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.UpcomingMovie
 import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.UpcomingMovieRequest
 
 import com.mads2202.kinomanapp.retrofit.movieApi.MovieRepository
