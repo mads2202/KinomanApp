@@ -1,5 +1,9 @@
 package com.mads2202.kinomanapp.retrofit.movieApi
 
-class MovieRepository(private val apiService: ApiService) {
-    suspend fun getUpcomingMovies() = apiService.getUpcomingMovies()
+import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.MovieType
+
+class MovieRepository(private val movieApiHelper: MovieApiHelper) {
+    suspend fun getUpcomingMovies() = movieApiHelper.getMovies(MovieType.UPCOMING)
+    suspend fun getTopRatedMovies() = movieApiHelper.getMovies(MovieType.TOPRATED)
+    suspend fun getPopularMovies() = movieApiHelper.getMovies(MovieType.POPULAR)
 }
