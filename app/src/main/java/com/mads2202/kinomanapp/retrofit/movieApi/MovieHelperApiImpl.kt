@@ -4,8 +4,8 @@ import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.UpcomingMovie
 import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.UpcomingMovieRequest
 import retrofit2.Response
 
-class MovieHelperApiImpl(private val apiService: ApiService):MovieApiHelper {
-    override suspend fun getUsers(): Response<UpcomingMovieRequest> =apiService.getUpcomingMovies()
+class MovieHelperApiImpl(private val apiService: ApiService) : MovieApiHelper {
+    override suspend fun getUsers(): Response<UpcomingMovieRequest> = apiService.getUpcomingMovies()
 
 
 }

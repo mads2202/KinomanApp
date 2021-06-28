@@ -10,13 +10,38 @@
         android:id="@+id/poster"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@id/movie_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@tools:sample/avatars"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"/>
+
+        />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/movie_poster_progress_circular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/guideline_margin"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toTopOf="@+id/movie_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.718" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="poster,movie_poster_progress_circular"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/start_guideline"
@@ -39,8 +64,7 @@
         android:layout_marginTop="@dimen/guideline_margin"
         app:layout_constraintEnd_toEndOf="@id/end_guideline"
         app:layout_constraintStart_toStartOf="@id/start_guideline"
-        app:layout_constraintTop_toBottomOf="@+id/poster"
-        app:layout_constraintBottom_toBottomOf="@id/info_group"
+        app:layout_constraintTop_toBottomOf="@+id/barrier"
         tools:text="Blade Ranner" />
 
     <TextView
@@ -85,9 +109,8 @@
         android:id="@+id/info_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="movie_release_date,movie_release_date_label,movie_rating,movie_rating_label"
         android:visibility="visible"
-        />
+        app:constraint_referenced_ids="movie_release_date,movie_release_date_label,movie_rating,movie_rating_label" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

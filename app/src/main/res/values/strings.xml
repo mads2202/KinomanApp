@@ -4,4 +4,7 @@
     <string name="duration">Duration:</string>
     <string name="rating">Rating:</string>
     <string name="release_date">Release date:</string>
+    <string name="upcoming_movie">Upcoming movies:</string>
+    <string name="popular_movie">Popular movies:</string>
+    <string name="top_rated_movie">Top rated movies:</string>
 </resources>

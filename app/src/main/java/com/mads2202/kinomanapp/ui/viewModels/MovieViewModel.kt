@@ -12,9 +12,10 @@ import kotlinx.coroutines.launch
 
 class MovieViewModel(val movieRepository: MovieRepository, val networkHelper: NetworkHelper) :
     ViewModel() {
-    companion object{
-        const val NO_INTERNET_CONNECTION="No internet connection"
+    companion object {
+        const val NO_INTERNET_CONNECTION = "No internet connection"
     }
+
     val results = MutableLiveData<Resource<UpcomingMovieRequest>>()
 
     init {
@@ -40,7 +41,7 @@ class MovieViewModel(val movieRepository: MovieRepository, val networkHelper: Ne
 
                 }
             } else {
-                results.postValue(Resource.error(NO_INTERNET_CONNECTION,null))
+                results.postValue(Resource.error(NO_INTERNET_CONNECTION, null))
             }
         }
     }
