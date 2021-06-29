@@ -7,4 +7,10 @@
     <string name="upcoming_movie">Upcoming movies:</string>
     <string name="popular_movie">Popular movies:</string>
     <string name="top_rated_movie">Top rated movies:</string>
+    <string name="director_label">Director:</string>
+    <string name="actors_label">Actors:</string>
+    <string name="like">like</string>
+    <string name="share">share</string>
+    <string name="budget_label">Budget:</string>
+    <string name="genres_label">Genres</string>
 </resources>

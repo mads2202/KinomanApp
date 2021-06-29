@@ -5,21 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.databinding.StartPageFragmentLayoutBinding
 import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.MovieType
-import com.mads2202.kinomanapp.ui.viewModels.MovieViewModel
-import com.mads2202.kinomanapp.util.Status
-import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class StartPageFragment : Fragment() {
     lateinit var binding: StartPageFragmentLayoutBinding
-    private val movieViewModel: MovieViewModel by viewModel()
-    lateinit var topRatedMovieStatus: Status
-    lateinit var popularMovieStatus: Status
-    lateinit var upcomingMovieStatus: Status
+    companion object{
+        const val NO_INTERNET_CONNECTION="No internet connection"
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -27,6 +22,7 @@ class StartPageFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.start_page_fragment_layout, container, false)
         binding = StartPageFragmentLayoutBinding.bind(view)
+
         childFragmentManager.beginTransaction()
             .replace(
                 R.id.upcoming_movie_container,
@@ -41,6 +37,7 @@ class StartPageFragment : Fragment() {
                 MoviesListFragment.newInstance(MovieType.TOPRATED)
             )
             .commit()
+
 
         return view
     }

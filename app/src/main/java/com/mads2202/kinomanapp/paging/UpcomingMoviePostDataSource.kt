@@ -1,6 +1,5 @@
 package com.mads2202.kinomanapp.paging
 
-import androidx.paging.PagingDataAdapter
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.Movie
@@ -9,7 +8,9 @@ import java.lang.Exception
 
 class UpcomingMoviePostDataSource(private val apiService: ApiService) : PagingSource<Int, Movie>() {
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
-        return null
+        val anchorPosition=state.anchorPosition ?: return null
+        val page=state.closestPageToPosition(anchorPosition) ?: return null
+        return page.prevKey?.plus(1) ?: page.nextKey?.minus(1)
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {

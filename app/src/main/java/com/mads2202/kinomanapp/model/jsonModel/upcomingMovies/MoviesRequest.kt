@@ -2,7 +2,7 @@ package com.mads2202.kinomanapp.model.jsonModel.upcomingMovies
 
 import com.google.gson.annotations.SerializedName
 
-data class MovieRequest(
+data class MoviesRequest(
     @SerializedName("page") var page: Int,
     @SerializedName("results") var results: List<Movie>,
     @SerializedName("dates") var dates: Dates,
