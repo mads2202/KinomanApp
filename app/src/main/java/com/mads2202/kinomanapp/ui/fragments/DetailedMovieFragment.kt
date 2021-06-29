@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.databinding.DetailedMoviePageFragmentBinding
 import com.mads2202.kinomanapp.model.jsonModel.moviesModel.DetailedMovie
+import com.mads2202.kinomanapp.model.jsonModel.moviesModel.MovieParticipantRequest
 import com.mads2202.kinomanapp.retrofit.movieApi.ApiService
 import com.mads2202.kinomanapp.ui.viewModels.DetailedMovieViewModel
 import com.mads2202.kinomanapp.util.Status
@@ -48,13 +49,18 @@ class DetailedMovieFragment() : Fragment() {
         val view = inflater.inflate(R.layout.detailed_movie_page_fragment, container, false)
         binding = DetailedMoviePageFragmentBinding.bind(view)
         viewModel = DetailedMovieViewModel(apiService, movieId)
-        setupObserver()
+        setupObservers()
 
         return view
     }
 
+    private fun setupObservers() {
+        setupMovieObserver()
+        setupMovieParticipantObserver()
+    }
 
-    private fun setupObserver() {
+
+    private fun setupMovieObserver() {
         viewModel.detailedMovieLiveData.observe(requireActivity(), Observer {
             when (it.status) {
                 Status.SUCCESS -> {
@@ -82,13 +88,27 @@ class DetailedMovieFragment() : Fragment() {
         })
     }
 
+    private fun setupMovieParticipantObserver() {
+        viewModel.movieParticipant.observe(requireActivity(), Observer {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    binding.detailedMoviePageProgressCircular.visibility = View.GONE
+                    it.data?.let { movieParticipant ->
+                        bindMovieParticipant(movieParticipant)
+                    }
+
+               }
+            }
+        })
+    }
+
     fun bindMovie(movie: DetailedMovie) {
         binding.title.text = movie.title
         binding.budget.text = movie.budget.toString()
         when (movie.genres.size) {
-            0->{
-                binding.genresLabel.visibility=View.GONE
-                binding.genres.visibility=View.GONE
+            0 -> {
+                binding.genresLabel.visibility = View.GONE
+                binding.genres.visibility = View.GONE
             }
             1 -> binding.genre1.text = movie.genres[0].name
             2 -> {
@@ -134,6 +154,48 @@ class DetailedMovieFragment() : Fragment() {
             .thumbnail(0.3f)
             .into(binding.poster)
 
+    }
+
+    fun bindMovieParticipant(movieParticipants: MovieParticipantRequest) {
+        var movieDirector: String? = ""
+
+        movieParticipants.crew.forEach {
+            if (it.job == "Director" && movieDirector.isNullOrBlank()) {
+                movieDirector = it.name
+            }
+        }
+        if (!movieDirector.isNullOrBlank()) {
+            binding.director.text = movieDirector
+        } else {
+            binding.director.visibility = View.GONE
+            binding.directorLabel.visibility = View.GONE
+        }
+
+
+        when (movieParticipants.cast.size) {
+            0 -> {
+                binding.actors.visibility = View.GONE
+                binding.actorsLabel.visibility = View.GONE
+            }
+            1 -> binding.actor1.text = movieParticipants.cast[0].name
+            2 -> {
+
+                binding.actor1.text = movieParticipants.cast[0].name
+                binding.actor2.text = movieParticipants.cast[1].name
+            }
+            3 -> {
+                binding.actor1.text = movieParticipants.cast[0].name
+                binding.actor2.text = movieParticipants.cast[1].name
+                binding.actor3.text = movieParticipants.cast[2].name
+
+            }
+            else -> {
+                binding.actor1.text = movieParticipants.cast[0].name
+                binding.actor2.text = movieParticipants.cast[1].name
+                binding.actor3.text = movieParticipants.cast[2].name
+                binding.actor4.text = movieParticipants.cast[3].name
+            }
+        }
     }
 
 }
