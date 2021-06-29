@@ -1,8 +1,8 @@
 package com.mads2202.kinomanapp.retrofit.movieApi
 
 
-import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.DetailedMovie
-import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.MoviesRequest
+import com.mads2202.kinomanapp.model.jsonModel.moviesModel.DetailedMovie
+import com.mads2202.kinomanapp.model.jsonModel.moviesModel.MoviesRequest
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -20,4 +20,6 @@ interface ApiService {
 
     @GET("movie/{movie_id}?api_key=0e1b920b4ec305f7bc0185bf9f16ee60&language=en-US")
     public suspend fun getDetailedMovieInfo(@Path("movie_id") id:Int):Response<DetailedMovie>
+    @GET("movie/{movie_id}/credits")
+    public suspend fun getMovieParticipants(@Path("movie_id") id:Int):Response<>
 }

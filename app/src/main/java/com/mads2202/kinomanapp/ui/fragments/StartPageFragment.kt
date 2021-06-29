@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.databinding.StartPageFragmentLayoutBinding
-import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.MovieType
+import com.mads2202.kinomanapp.model.jsonModel.moviesModel.MovieType
 
 
 class StartPageFragment : Fragment() {

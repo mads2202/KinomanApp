@@ -1,10 +1,9 @@
 package com.mads2202.kinomanapp.ui.viewModels
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.DetailedMovie
+import com.mads2202.kinomanapp.model.jsonModel.moviesModel.DetailedMovie
 import com.mads2202.kinomanapp.retrofit.movieApi.ApiService
 import com.mads2202.kinomanapp.util.Resource
 import kotlinx.coroutines.launch

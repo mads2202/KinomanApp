@@ -13,7 +13,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.mads2202.kinomanapp.databinding.MovieListItemLayoutBinding
-import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.Movie
+import com.mads2202.kinomanapp.model.jsonModel.moviesModel.Movie
 
 class MovieAdapter : PagingDataAdapter<Movie, MovieAdapter.MovieViewHolder>(DataDifferntiator) {
      var itemClickListener: OnItemClickListener?=null

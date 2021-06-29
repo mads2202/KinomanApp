@@ -2,7 +2,7 @@ package com.mads2202.kinomanapp.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.Movie
+import com.mads2202.kinomanapp.model.jsonModel.moviesModel.Movie
 import com.mads2202.kinomanapp.retrofit.movieApi.ApiService
 import java.lang.Exception
 

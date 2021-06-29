@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -16,14 +15,11 @@ import com.bumptech.glide.request.target.Target
 import com.google.android.material.snackbar.Snackbar
 import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.databinding.DetailedMoviePageFragmentBinding
-import com.mads2202.kinomanapp.model.jsonModel.upcomingMovies.DetailedMovie
+import com.mads2202.kinomanapp.model.jsonModel.moviesModel.DetailedMovie
 import com.mads2202.kinomanapp.retrofit.movieApi.ApiService
 import com.mads2202.kinomanapp.ui.viewModels.DetailedMovieViewModel
 import com.mads2202.kinomanapp.util.Status
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import org.koin.android.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 
 class DetailedMovieFragment() : Fragment() {
     val apiService: ApiService by inject()

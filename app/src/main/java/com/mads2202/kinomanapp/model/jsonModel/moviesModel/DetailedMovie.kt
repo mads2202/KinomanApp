@@ -1,4 +1,4 @@
-package com.mads2202.kinomanapp.model.jsonModel.upcomingMovies
+package com.mads2202.kinomanapp.model.jsonModel.moviesModel
 
 import com.google.gson.annotations.SerializedName
 
