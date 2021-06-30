@@ -1,6 +1,6 @@
-package com.mads2202.kinomanapp.model.jsonModel.upcomingMovies
+package com.mads2202.kinomanapp.model.jsonModel.moviesModel
 
-data class UpcomingMovie(
+data class Movie(
     var poster_path: String?,
     var release_date: String?,
     var id: Int?,
