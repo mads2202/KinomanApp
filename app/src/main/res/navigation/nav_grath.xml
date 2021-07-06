@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_grath"
+    app:startDestination="@id/startPageFragment">
+
+    <fragment
+        android:id="@+id/startPageFragment"
+        android:name="com.mads2202.kinomanapp.ui.fragments.StartPageFragment"
+        android:label="StartPageFragment"
+        tools:layout="@layout/start_page_fragment_layout">
+        <action
+            android:id="@+id/action_startPageFragment_to_detailedMovieFragment"
+            app:destination="@id/detailedMovieFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailedMovieFragment"
+        android:name="com.mads2202.kinomanapp.ui.fragments.DetailedMovieFragment"
+        android:label="DetailedMovieFragment"
+        tools:layout="@layout/detailed_movie_page_fragment">
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="1" />
+        <action
+            android:id="@+id/action_detailedMovieFragment_to_detailedActorFragment2"
+            app:destination="@id/detailedActorFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/actorsListFragment"
+        android:name="com.mads2202.kinomanapp.ui.fragments.ActorsListFragment"
+        android:label="ActorsListFragment"
+        tools:layout="@layout/list_fragment">
+        <action
+            android:id="@+id/action_actorsListFragment_to_detailedMovieFragment"
+            app:destination="@id/detailedMovieFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteMoviesListFragment"
+        android:name="com.mads2202.kinomanapp.ui.fragments.FavoriteMoviesListFragment"
+        android:label="FavoriteMoviesListFragment"
+        tools:layout="@layout/list_fragment">
+        <action
+            android:id="@+id/action_favoriteMoviesListFragment_to_detailedMovieFragment"
+            app:destination="@id/detailedMovieFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailedActorFragment2"
+        android:name="com.mads2202.kinomanapp.ui.fragments.DetailedActorFragment"
+        android:label="DetailedActorFragment"
+        tools:layout="@layout/detailed_actor_fragment_layout">
+        <argument
+            android:name="actorId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_detailedActorFragment2_to_detailedMovieFragment2"
+            app:destination="@id/detailedMovieFragment" />
+    </fragment>
+</navigation>

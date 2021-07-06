@@ -26,16 +26,16 @@ class DetailedMovieViewModel(private val apiService: ApiService, val id: Int) : 
             } else {
                 detailedMovieLiveData.postValue(Resource.error(response.message(), null))
             }
-            viewModelScope.launch {
-                val response = apiService.getMovieParticipants(id)
-                movieParticipant.postValue(Resource.loading(null))
-                if (response.isSuccessful) {
-                    movieParticipant.postValue(Resource.success(response.body()))
-                } else {
-                    movieParticipant.postValue(Resource.error(response.message(), null))
-                }
-
+        }
+        viewModelScope.launch {
+            val response = apiService.getMovieParticipants(id)
+            movieParticipant.postValue(Resource.loading(null))
+            if (response.isSuccessful) {
+                movieParticipant.postValue(Resource.success(response.body()))
+            } else {
+                movieParticipant.postValue(Resource.error(response.message(), null))
             }
+
         }
     }
 }

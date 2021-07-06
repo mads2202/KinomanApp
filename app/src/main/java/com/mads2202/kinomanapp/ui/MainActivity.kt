@@ -3,6 +3,9 @@ package com.mads2202.kinomanapp.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.ui.fragments.MoviesListFragment
 import com.mads2202.kinomanapp.ui.fragments.StartPageFragment
@@ -14,10 +17,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (supportFragmentManager.findFragmentByTag(START_PAGE_FRAGMENT_TAG) == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.main_activity_fragment_container, StartPageFragment(), START_PAGE_FRAGMENT_TAG)
-                .addToBackStack(START_PAGE_FRAGMENT_TAG).commit()
-        }
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+       val bottomNavigationBar=findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationBar.setupWithNavController(navController)
+
     }
 }

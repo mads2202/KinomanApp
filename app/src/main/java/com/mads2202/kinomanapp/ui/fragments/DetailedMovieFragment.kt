@@ -23,12 +23,17 @@ import com.mads2202.kinomanapp.util.Status
 import org.koin.android.ext.android.inject
 
 class DetailedMovieFragment() : Fragment() {
-    val apiService: ApiService by inject()
+    private val apiService: ApiService by inject()
     lateinit var viewModel: DetailedMovieViewModel
     var movieId: Int = 0
+    private var actor1Id = 1
+    private var actor2Id = 1
+    private var actor3Id = 1
+    private var actor4Id = 1
+    private var directorId = 1
 
     companion object {
-        private const val MOVIE_ID = "MovieId"
+        private const val MOVIE_ID = "ID"
         fun newInstance(id: Int?): DetailedMovieFragment {
             val args = Bundle()
             id?.let { args.putInt(MOVIE_ID, it) }
@@ -61,7 +66,7 @@ class DetailedMovieFragment() : Fragment() {
 
 
     private fun setupMovieObserver() {
-        viewModel.detailedMovieLiveData.observe(requireActivity(), Observer {
+        viewModel.detailedMovieLiveData.observe(requireActivity(), {
             when (it.status) {
                 Status.SUCCESS -> {
                     binding.detailedMoviePageProgressCircular.visibility = View.GONE
@@ -89,7 +94,7 @@ class DetailedMovieFragment() : Fragment() {
     }
 
     private fun setupMovieParticipantObserver() {
-        viewModel.movieParticipant.observe(requireActivity(), Observer {
+        viewModel.movieParticipant.observe(requireActivity(), {
             when (it.status) {
                 Status.SUCCESS -> {
                     binding.detailedMoviePageProgressCircular.visibility = View.GONE
@@ -97,7 +102,7 @@ class DetailedMovieFragment() : Fragment() {
                         bindMovieParticipant(movieParticipant)
                     }
 
-               }
+                }
             }
         })
     }
@@ -161,11 +166,14 @@ class DetailedMovieFragment() : Fragment() {
 
         movieParticipants.crew.forEach {
             if (it.job == "Director" && movieDirector.isNullOrBlank()) {
+                directorId = it.id
                 movieDirector = it.name
+
             }
         }
         if (!movieDirector.isNullOrBlank()) {
             binding.director.text = movieDirector
+
         } else {
             binding.director.visibility = View.GONE
             binding.directorLabel.visibility = View.GONE
@@ -177,23 +185,36 @@ class DetailedMovieFragment() : Fragment() {
                 binding.actors.visibility = View.GONE
                 binding.actorsLabel.visibility = View.GONE
             }
-            1 -> binding.actor1.text = movieParticipants.cast[0].name
+            1 -> {
+                binding.actor1.text = movieParticipants.cast[0].name
+                actor1Id = movieParticipants.cast[0].id
+            }
+
+
             2 -> {
 
                 binding.actor1.text = movieParticipants.cast[0].name
                 binding.actor2.text = movieParticipants.cast[1].name
+                actor1Id = movieParticipants.cast[0].id
+                actor2Id = movieParticipants.cast[1].id
             }
             3 -> {
                 binding.actor1.text = movieParticipants.cast[0].name
                 binding.actor2.text = movieParticipants.cast[1].name
                 binding.actor3.text = movieParticipants.cast[2].name
-
+                actor1Id = movieParticipants.cast[0].id
+                actor2Id = movieParticipants.cast[1].id
+                actor3Id = movieParticipants.cast[2].id
             }
             else -> {
                 binding.actor1.text = movieParticipants.cast[0].name
                 binding.actor2.text = movieParticipants.cast[1].name
                 binding.actor3.text = movieParticipants.cast[2].name
                 binding.actor4.text = movieParticipants.cast[3].name
+                actor1Id = movieParticipants.cast[0].id
+                actor2Id = movieParticipants.cast[1].id
+                actor3Id = movieParticipants.cast[2].id
+                actor4Id = movieParticipants.cast[3].id
             }
         }
     }

@@ -13,4 +13,16 @@
     <string name="share">share</string>
     <string name="budget_label">Budget:</string>
     <string name="genres_label">Genres</string>
+    <string name="movies">movies</string>
+    <string name="favourite_movies">favourite movies</string>
+    <string name="actors">actors</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="gender_label">Gender:</string>
+    <string name="birtdate_label">Birthdate:</string>
+    <string name="deathdate_label">Deathdate</string>
+    <string name="department_label">Department:</string>
+    <string name="birthPlace">Place of birth:</string>
+    <string name="biography_label">Biography:</string>
+    <string name="films_label">Films:</string>
 </resources>

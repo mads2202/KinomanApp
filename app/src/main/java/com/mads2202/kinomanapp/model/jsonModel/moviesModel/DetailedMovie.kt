@@ -1,7 +1,8 @@
 package com.mads2202.kinomanapp.model.jsonModel.moviesModel
 
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
-
+@Entity
 data class DetailedMovie (
     @SerializedName("budget") var budget : Int,
     @SerializedName("genres") var genres : List<Genres>,

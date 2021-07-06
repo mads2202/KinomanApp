@@ -5,9 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.databinding.StartPageFragmentLayoutBinding
 import com.mads2202.kinomanapp.model.jsonModel.moviesModel.MovieType
+import com.mads2202.kinomanapp.ui.viewModels.MovieViewModel
+import com.mads2202.kinomanapp.util.MovieAdapter
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class StartPageFragment : Fragment() {
