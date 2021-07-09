@@ -1,63 +1,103 @@
 package com.mads2202.kinomanapp.ui.fragments
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.google.android.material.snackbar.Snackbar
 import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.databinding.DetailedMoviePageFragmentBinding
-import com.mads2202.kinomanapp.model.jsonModel.moviesModel.DetailedMovie
-import com.mads2202.kinomanapp.model.jsonModel.moviesModel.MovieParticipantRequest
-import com.mads2202.kinomanapp.retrofit.movieApi.ApiService
+import com.mads2202.kinomanapp.model.jsonModel.moviesModel.Genres
+import com.mads2202.kinomanapp.model.roomModel.MovieActorCrossRef
+import com.mads2202.kinomanapp.model.roomModel.MovieDB
+import com.mads2202.kinomanapp.retrofit.movieApi.MovieRepository
+import com.mads2202.kinomanapp.room.repository.MovieRepositoryDB
 import com.mads2202.kinomanapp.ui.viewModels.DetailedMovieViewModel
-import com.mads2202.kinomanapp.util.Status
+import com.mads2202.kinomanapp.util.ID
+import com.mads2202.kinomanapp.util.dbUtil.Converters
+import com.mads2202.kinomanapp.util.networkUtil.Status
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
-class DetailedMovieFragment() : Fragment() {
-    private val apiService: ApiService by inject()
-    lateinit var viewModel: DetailedMovieViewModel
-    var movieId: Int = 0
-    private var actor1Id = 1
-    private var actor2Id = 1
-    private var actor3Id = 1
-    private var actor4Id = 1
-    private var directorId = 1
 
-    companion object {
-        private const val MOVIE_ID = "ID"
-        fun newInstance(id: Int?): DetailedMovieFragment {
-            val args = Bundle()
-            id?.let { args.putInt(MOVIE_ID, it) }
-            val fragment = DetailedMovieFragment()
-            fragment.arguments = args
-            return fragment
-        }
-    }
+class DetailedMovieFragment() : DetailedMovieFragmentParent() {
+    private val movieRepository: MovieRepository by inject()
+    private val movieRepositoryDB: MovieRepositoryDB by inject()
+    private val detailedMovieViewModel: DetailedMovieViewModel by viewModel()
 
-    lateinit var binding: DetailedMoviePageFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        movieId = requireArguments().getInt(MOVIE_ID)
+        detailedMovieViewModel.id = requireArguments().getInt(ID)
+        detailedMovieViewModel.loadDetailedMovie()
         val view = inflater.inflate(R.layout.detailed_movie_page_fragment, container, false)
         binding = DetailedMoviePageFragmentBinding.bind(view)
-        viewModel = DetailedMovieViewModel(apiService, movieId)
         setupObservers()
-
+        setupUI()
         return view
     }
+
+    private fun setupUI() {
+
+        binding.actor1.setOnClickListener {
+            navigateToDetailedPersonFragment(actor1.actorId)
+        }
+        binding.actor2.setOnClickListener {
+            navigateToDetailedPersonFragment(actor2.actorId)
+        }
+        binding.actor3.setOnClickListener {
+            navigateToDetailedPersonFragment(actor3.actorId)
+        }
+        binding.actor4.setOnClickListener {
+            navigateToDetailedPersonFragment(actor4.actorId)
+        }
+        binding.director.setOnClickListener {
+            navigateToDetailedPersonFragment(director.directorId)
+        }
+        binding.like.setOnClickListener {
+            lifecycleScope.launch(Dispatchers.IO) {
+                if (movieRepositoryDB.getMovieById(movie.id) != null) {
+                    binding.like.isClickable = false
+                } else {
+                    val movieDB = MovieDB(
+                        movieId = movie.id,
+                        movieDirectorId = director.directorId,
+                        budget = movie.budget,
+                        genres = movie.genres,
+                        overview = movie.overview,
+                        posterPath = movie.posterPath,
+                        releaseDate = movie.releaseDate,
+                        voteAverage = movie.voteAverage,
+                        tagline = movie.tagline,
+                        title = movie.title,
+                        status = movie.status
+                    )
+                    movieRepositoryDB.addMovie(movieDB)
+                    movieRepositoryDB.addDirector(director)
+                    movieRepositoryDB.addActors(listOf(actor1, actor2, actor3, actor4))
+                    movieRepositoryDB.addMovieActorCrossRef(
+                        listOf(
+                            MovieActorCrossRef(movieDB.movieId, actor1.actorId),
+                            MovieActorCrossRef(movieDB.movieId, actor2.actorId),
+                            MovieActorCrossRef(movieDB.movieId, actor3.actorId),
+                            MovieActorCrossRef(movieDB.movieId, actor4.actorId)
+                        )
+                    )
+                }
+            }
+        }
+    }
+
 
     private fun setupObservers() {
         setupMovieObserver()
@@ -66,7 +106,7 @@ class DetailedMovieFragment() : Fragment() {
 
 
     private fun setupMovieObserver() {
-        viewModel.detailedMovieLiveData.observe(requireActivity(), {
+        detailedMovieViewModel.detailedMovieLiveData.observe(requireActivity(), {
             when (it.status) {
                 Status.SUCCESS -> {
                     binding.detailedMoviePageProgressCircular.visibility = View.GONE
@@ -94,7 +134,7 @@ class DetailedMovieFragment() : Fragment() {
     }
 
     private fun setupMovieParticipantObserver() {
-        viewModel.movieParticipant.observe(requireActivity(), {
+        detailedMovieViewModel.movieParticipant.observe(requireActivity(), {
             when (it.status) {
                 Status.SUCCESS -> {
                     binding.detailedMoviePageProgressCircular.visibility = View.GONE
@@ -107,116 +147,12 @@ class DetailedMovieFragment() : Fragment() {
         })
     }
 
-    fun bindMovie(movie: DetailedMovie) {
-        binding.title.text = movie.title
-        binding.budget.text = movie.budget.toString()
-        when (movie.genres.size) {
-            0 -> {
-                binding.genresLabel.visibility = View.GONE
-                binding.genres.visibility = View.GONE
-            }
-            1 -> binding.genre1.text = movie.genres[0].name
-            2 -> {
-                binding.genre1.text = movie.genres[0].name
-                binding.genre2.text = movie.genres[1].name
-            }
-            else -> {
-                binding.genre1.text = movie.genres[0].name
-                binding.genre2.text = movie.genres[1].name
-                binding.genre3.text = movie.genres[2].name
-            }
-
-        }
-
-        binding.shortDescriptions.text = movie.overview
-        Glide.with(binding.root)
-            .load("https://image.tmdb.org/t/p/original/" + movie.posterPath)
-            .listener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    binding.detailedMoviePosterProgressCircular.visibility = View.VISIBLE
-
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    binding.detailedMoviePosterProgressCircular.visibility = View.GONE
-                    binding.poster.visibility = View.VISIBLE
-                    return false
-                }
-
-            })
-            .thumbnail(0.3f)
-            .into(binding.poster)
-
+    fun navigateToDetailedPersonFragment(id: Int) {
+        val bundle = Bundle()
+        bundle.putInt(ID, id)
+        Navigation.findNavController(binding.root)
+            .navigate(R.id.action_detailedMovieFragment_to_detailedActorFragment2, bundle)
     }
 
-    fun bindMovieParticipant(movieParticipants: MovieParticipantRequest) {
-        var movieDirector: String? = ""
-
-        movieParticipants.crew.forEach {
-            if (it.job == "Director" && movieDirector.isNullOrBlank()) {
-                directorId = it.id
-                movieDirector = it.name
-
-            }
-        }
-        if (!movieDirector.isNullOrBlank()) {
-            binding.director.text = movieDirector
-
-        } else {
-            binding.director.visibility = View.GONE
-            binding.directorLabel.visibility = View.GONE
-        }
-
-
-        when (movieParticipants.cast.size) {
-            0 -> {
-                binding.actors.visibility = View.GONE
-                binding.actorsLabel.visibility = View.GONE
-            }
-            1 -> {
-                binding.actor1.text = movieParticipants.cast[0].name
-                actor1Id = movieParticipants.cast[0].id
-            }
-
-
-            2 -> {
-
-                binding.actor1.text = movieParticipants.cast[0].name
-                binding.actor2.text = movieParticipants.cast[1].name
-                actor1Id = movieParticipants.cast[0].id
-                actor2Id = movieParticipants.cast[1].id
-            }
-            3 -> {
-                binding.actor1.text = movieParticipants.cast[0].name
-                binding.actor2.text = movieParticipants.cast[1].name
-                binding.actor3.text = movieParticipants.cast[2].name
-                actor1Id = movieParticipants.cast[0].id
-                actor2Id = movieParticipants.cast[1].id
-                actor3Id = movieParticipants.cast[2].id
-            }
-            else -> {
-                binding.actor1.text = movieParticipants.cast[0].name
-                binding.actor2.text = movieParticipants.cast[1].name
-                binding.actor3.text = movieParticipants.cast[2].name
-                binding.actor4.text = movieParticipants.cast[3].name
-                actor1Id = movieParticipants.cast[0].id
-                actor2Id = movieParticipants.cast[1].id
-                actor3Id = movieParticipants.cast[2].id
-                actor4Id = movieParticipants.cast[3].id
-            }
-        }
-    }
 
 }

@@ -201,7 +201,7 @@
             app:layout_constraintEnd_toStartOf="@id/end_guideline"
             app:layout_constraintStart_toEndOf="@id/start_guideline"
             app:layout_constraintTop_toBottomOf="@+id/genres"
-            tools:text="move_short_description" />
+            tools:text="@tools:sample/lorem/random" />
 
         <TextView
             android:id="@+id/actors_label"

@@ -1,4 +1,4 @@
-package com.mads2202.kinomanapp.util
+package com.mads2202.kinomanapp.util.networkUtil
 
 import android.content.Context
 import android.net.ConnectivityManager

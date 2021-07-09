@@ -25,4 +25,8 @@
     <string name="birthPlace">Place of birth:</string>
     <string name="biography_label">Biography:</string>
     <string name="films_label">Films:</string>
+    <string name="refresh">No Internet Connection.Refresh!</string>
+    <string name="already_in_db">already favorite</string>
+    <string name="role">Role:</string>
+    <string name="dislike">dislike</string>
 </resources>

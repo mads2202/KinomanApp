@@ -1,4 +1,4 @@
-package com.mads2202.kinomanapp.util
+package com.mads2202.kinomanapp.util.adapters
 
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -63,7 +63,7 @@ class MovieAdapter : PagingDataAdapter<Movie, MovieAdapter.MovieViewHolder>(Data
 
     }
 
-    override fun onBindViewHolder(holder: MovieAdapter.MovieViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
 
     }
@@ -71,7 +71,7 @@ class MovieAdapter : PagingDataAdapter<Movie, MovieAdapter.MovieViewHolder>(Data
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MovieAdapter.MovieViewHolder {
+    ): MovieViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val movieListItemLayoutBinding =
             MovieListItemLayoutBinding.inflate(layoutInflater, parent, false)
