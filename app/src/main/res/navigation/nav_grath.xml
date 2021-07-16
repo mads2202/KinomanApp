@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_detailedActorFragment2_to_detailedMovieFragment2"
             app:destination="@id/detailedMovieFragment" />
+        <action
+            android:id="@+id/action_detailedActorFragment2_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailedMovieFragmentDB"
@@ -67,5 +70,14 @@
         <action
             android:id="@+id/action_detailedMovieFragmentDB_to_detailedActorFragment2"
             app:destination="@id/detailedActorFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.mads2202.kinomanapp.ui.fragments.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" >
+        <argument
+            android:name="locationName"
+            app:argType="string" />
     </fragment>
 </navigation>

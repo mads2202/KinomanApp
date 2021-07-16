@@ -22,6 +22,7 @@ import com.mads2202.kinomanapp.model.jsonModel.personModel.Person
 import com.mads2202.kinomanapp.model.jsonModel.personModel.PersonMovies
 import com.mads2202.kinomanapp.ui.viewModels.PersonViewModel
 import com.mads2202.kinomanapp.util.ID
+import com.mads2202.kinomanapp.util.LOCATION_NAME
 import com.mads2202.kinomanapp.util.adapters.MovieAdapter
 import com.mads2202.kinomanapp.util.adapters.PersonMovieAdapter
 import com.mads2202.kinomanapp.util.networkUtil.NetworkHelper
@@ -84,7 +85,14 @@ class DetailedActorFragment : Fragment() {
         binding.deathdate.text = if (person.deathday == null) "alive" else person.deathday
         binding.department.text = person.knownForDepartment
         binding.placeOfBirth.text = person.placeOfBirth
+        binding.placeOfBirth.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString(LOCATION_NAME, person.placeOfBirth)
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_detailedActorFragment2_to_mapsFragment, bundle)
+        }
         binding.shortDescriptions.text = person.biography
+
         Glide.with(binding.root)
             .load("https://image.tmdb.org/t/p/original/" + person.profilePath)
             .listener(object : RequestListener<Drawable> {
@@ -132,7 +140,10 @@ class DetailedActorFragment : Fragment() {
                 movie.id?.let { bundle.putInt(ID, it) }
                 if (NetworkHelper(requireActivity()).isNetworkConnected()) {
                     Navigation.findNavController(binding.root)
-                        .navigate(R.id.action_detailedActorFragment2_to_detailedMovieFragment2, bundle)
+                        .navigate(
+                            R.id.action_detailedActorFragment2_to_detailedMovieFragment2,
+                            bundle
+                        )
                 } else {
                     Toast.makeText(
                         requireContext(),
