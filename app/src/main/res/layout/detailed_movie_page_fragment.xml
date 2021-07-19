@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_layout"
@@ -200,8 +199,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toStartOf="@id/end_guideline"
             app:layout_constraintStart_toEndOf="@id/start_guideline"
-            app:layout_constraintTop_toBottomOf="@+id/genres"
-            tools:text="@tools:sample/lorem/random" />
+            app:layout_constraintTop_toBottomOf="@+id/genres" />
 
         <TextView
             android:id="@+id/actors_label"
@@ -265,7 +263,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
-            app:constraint_referenced_ids="like,share"
+            app:constraint_referenced_ids="like,share,dislike"
             app:flow_horizontalBias="0"
             app:flow_horizontalGap="8dp"
             app:flow_horizontalStyle="packed"
@@ -286,6 +284,14 @@
             android:text="@string/like"
             app:layout_goneMarginEnd="0dp" />
 
+        <Button
+            android:id="@+id/dislike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/dislike"
+            app:layout_goneMarginEnd="0dp" />
 
         <Button
             android:id="@+id/share"
@@ -302,7 +308,7 @@
             android:layout_height="match_parent"
             app:constraint_referenced_ids="actors_label,genres_label,title,director_label
             ,director,budget_label,budget,genres,like,share,poster,actors,short_descriptions,
-            detailed_movie_poster_progress_circular" />
+            detailed_movie_poster_progress_circular,dislike" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

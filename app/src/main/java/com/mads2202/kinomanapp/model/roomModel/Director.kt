@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class Director(
     @PrimaryKey
     val directorId: Int,
-    var name: String
+    var name: String,
+    var movieId: Int
 )
 

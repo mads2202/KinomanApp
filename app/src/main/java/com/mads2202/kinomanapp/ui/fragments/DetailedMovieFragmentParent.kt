@@ -3,6 +3,7 @@ package com.mads2202.kinomanapp.ui.fragments
 import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -13,10 +14,18 @@ import com.mads2202.kinomanapp.model.jsonModel.moviesModel.DetailedMovie
 import com.mads2202.kinomanapp.model.jsonModel.moviesModel.MovieParticipantRequest
 import com.mads2202.kinomanapp.model.roomModel.Actor
 import com.mads2202.kinomanapp.model.roomModel.Director
+import com.mads2202.kinomanapp.model.roomModel.MovieActorCrossRef
+import com.mads2202.kinomanapp.model.roomModel.MovieDB
+import com.mads2202.kinomanapp.room.repository.MovieRepositoryDB
+import com.mads2202.kinomanapp.util.ID
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.koin.android.ext.android.inject
 
 
 open class DetailedMovieFragmentParent : Fragment() {
-
+    private val movieRepositoryDB: MovieRepositoryDB by inject()
     lateinit var binding: DetailedMoviePageFragmentBinding
     lateinit var movie: DetailedMovie
     protected lateinit var actor1: Actor
@@ -84,7 +93,7 @@ open class DetailedMovieFragmentParent : Fragment() {
     open fun bindMovieParticipant(movieParticipants: MovieParticipantRequest) {
         movieParticipants.crew.forEach {
             if (it.job == "Director") {
-                director = Director(it.id, it.name)
+                director = Director(it.id, it.name, movie.id)
 
 
             }
@@ -105,7 +114,8 @@ open class DetailedMovieFragmentParent : Fragment() {
             }
             1 -> {
                 binding.actor1.text = movieParticipants.cast[0].name
-                actor1 = Actor(movieParticipants.cast[0].id, movieParticipants.cast[0].name)
+                actor1 =
+                    Actor(movieParticipants.cast[0].id, movieParticipants.cast[0].name, movie.id)
             }
 
 
@@ -113,27 +123,95 @@ open class DetailedMovieFragmentParent : Fragment() {
 
                 binding.actor1.text = movieParticipants.cast[0].name
                 binding.actor2.text = movieParticipants.cast[1].name
-                actor1 = Actor(movieParticipants.cast[0].id, movieParticipants.cast[0].name)
-                actor2 = Actor(movieParticipants.cast[1].id, movieParticipants.cast[1].name)
+                actor1 =
+                    Actor(movieParticipants.cast[0].id, movieParticipants.cast[0].name, movie.id)
+                actor2 =
+                    Actor(movieParticipants.cast[1].id, movieParticipants.cast[1].name, movie.id)
             }
             3 -> {
                 binding.actor1.text = movieParticipants.cast[0].name
                 binding.actor2.text = movieParticipants.cast[1].name
                 binding.actor3.text = movieParticipants.cast[2].name
-                actor1 = Actor(movieParticipants.cast[0].id, movieParticipants.cast[0].name)
-                actor2 = Actor(movieParticipants.cast[1].id, movieParticipants.cast[1].name)
-                actor3 = Actor(movieParticipants.cast[2].id, movieParticipants.cast[2].name)
+                actor1 =
+                    Actor(movieParticipants.cast[0].id, movieParticipants.cast[0].name, movie.id)
+                actor2 =
+                    Actor(movieParticipants.cast[1].id, movieParticipants.cast[1].name, movie.id)
+                actor3 =
+                    Actor(movieParticipants.cast[2].id, movieParticipants.cast[2].name, movie.id)
             }
             else -> {
                 binding.actor1.text = movieParticipants.cast[0].name
                 binding.actor2.text = movieParticipants.cast[1].name
                 binding.actor3.text = movieParticipants.cast[2].name
                 binding.actor4.text = movieParticipants.cast[3].name
-                actor1 = Actor(movieParticipants.cast[0].id, movieParticipants.cast[0].name)
-                actor2 = Actor(movieParticipants.cast[1].id, movieParticipants.cast[1].name)
-                actor3 = Actor(movieParticipants.cast[2].id, movieParticipants.cast[2].name)
-                actor4 = Actor(movieParticipants.cast[3].id, movieParticipants.cast[3].name)
+                actor1 =
+                    Actor(movieParticipants.cast[0].id, movieParticipants.cast[0].name, movie.id)
+                actor2 =
+                    Actor(movieParticipants.cast[1].id, movieParticipants.cast[1].name, movie.id)
+                actor3 =
+                    Actor(movieParticipants.cast[2].id, movieParticipants.cast[2].name, movie.id)
+                actor4 =
+                    Actor(movieParticipants.cast[3].id, movieParticipants.cast[3].name, movie.id)
             }
         }
     }
+
+    protected fun setupClickListener() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val dbMovie = movieRepositoryDB.getMovieById(requireArguments().getInt(ID))
+            withContext(Dispatchers.Main) {
+                if (dbMovie == null) {
+                    binding.like.visibility = View.VISIBLE
+                    binding.dislike.visibility = View.GONE
+                } else {
+                    binding.like.visibility = View.GONE
+                    binding.dislike.visibility = View.VISIBLE
+                }
+            }
+        }
+        binding.dislike.setOnClickListener {
+            lifecycleScope.launch(Dispatchers.IO) {
+                movieRepositoryDB.deleteMovie(requireArguments().getInt(ID))
+                movieRepositoryDB.deleteActor(movie.id)
+                movieRepositoryDB.deleteDirector(movie.id)
+                movieRepositoryDB.deleteMovieActorCrossRef(movie.id)
+                withContext(Dispatchers.Main) {
+                    binding.like.visibility = View.VISIBLE
+                    binding.dislike.visibility = View.GONE
+                }
+            }
+        }
+        binding.like.setOnClickListener {
+            val movieDB = MovieDB(
+                movieId = movie.id,
+                movieDirectorId = director.directorId,
+                budget = movie.budget,
+                genres = movie.genres,
+                overview = movie.overview,
+                posterPath = movie.posterPath,
+                releaseDate = movie.releaseDate,
+                voteAverage = movie.voteAverage,
+                tagline = movie.tagline,
+                title = movie.title,
+                status = movie.status
+            )
+            binding.like.visibility = View.GONE
+            binding.dislike.visibility = View.VISIBLE
+            lifecycleScope.launch(Dispatchers.IO) {
+                movieRepositoryDB.addMovie(movieDB)
+                movieRepositoryDB.addDirector(director)
+                movieRepositoryDB.addActors(listOf(actor1, actor2, actor3, actor4))
+                movieRepositoryDB.addMovieActorCrossRef(
+                    listOf(
+                        MovieActorCrossRef(movieDB.movieId, actor1.actorId),
+                        MovieActorCrossRef(movieDB.movieId, actor2.actorId),
+                        MovieActorCrossRef(movieDB.movieId, actor3.actorId),
+                        MovieActorCrossRef(movieDB.movieId, actor4.actorId)
+                    )
+                )
+            }
+        }
+    }
+
+
 }

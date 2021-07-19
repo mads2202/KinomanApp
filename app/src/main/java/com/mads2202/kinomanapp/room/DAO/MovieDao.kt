@@ -32,4 +32,16 @@ interface MovieDao {
 
     @Insert
     suspend fun addMovieActorCrossRef(movieActorCrossRef: List<MovieActorCrossRef>)
+
+    @Query("DELETE FROM MovieActorCrossRef WHERE movieId=:id")
+    suspend fun deleteMovieActorCrossRef(id: Int)
+
+    @Query("DELETE FROM actor WHERE movieID=:movieId")
+    suspend fun deleteActor(movieId: Int)
+
+    @Query("DELETE FROM director WHERE movieId=:movieId")
+    suspend fun deleteDirector(movieId: Int)
+
+    @Query("DELETE FROM movie WHERE movieId=:id")
+    suspend fun deleteMovie(id: Int)
 }

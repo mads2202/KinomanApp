@@ -4,18 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.databinding.DetailedMoviePageFragmentBinding
 import com.mads2202.kinomanapp.model.jsonModel.moviesModel.DetailedMovie
 import com.mads2202.kinomanapp.model.roomModel.MovieDB
+import com.mads2202.kinomanapp.room.repository.MovieRepositoryDB
 import com.mads2202.kinomanapp.ui.viewModels.DetailedFavoriteMovieViewModel
 import com.mads2202.kinomanapp.util.ID
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.koin.android.ext.android.inject
+
 import org.koin.android.viewmodel.ext.android.viewModel
+
 
 class DetailedMovieFragmentDB : DetailedMovieFragmentParent() {
     private val viewModel: DetailedFavoriteMovieViewModel by viewModel()
 
+    private lateinit var movieDB: MovieDB
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,9 +56,9 @@ class DetailedMovieFragmentDB : DetailedMovieFragmentParent() {
         binding.director.setOnClickListener {
             navigateToDetailedPersonFragment(director.directorId)
         }
-        binding.like.text = resources.getText(R.string.dislike)
-
+        setupClickListener()
     }
+
 
     private fun setupObservers() {
         setupMovieObserver()
@@ -61,23 +70,23 @@ class DetailedMovieFragmentDB : DetailedMovieFragmentParent() {
     private fun setupMovieObserver() {
         viewModel.loadMovie()
         viewModel.detailedMovie.observe(requireActivity(), {
-            bindMovie(
-                DetailedMovie(
-                    it.budget,
-                    it.genres,
-                    it.movieId,
-                    it.overview,
-                    it.posterPath,
-                    it.releaseDate,
-                    0,
-                    0,
-                    it.status,
-                    it.tagline,
-                    it.title,
-                    it.voteAverage,
-                    0
-                )
+            movieDB = it
+            movie = DetailedMovie(
+                it.budget,
+                it.genres,
+                it.movieId,
+                it.overview,
+                it.posterPath,
+                it.releaseDate,
+                0,
+                0,
+                it.status,
+                it.tagline,
+                it.title,
+                it.voteAverage,
+                0
             )
+            bindMovie(movie)
             viewModel.loadDirector(it.movieDirectorId)
         })
     }
@@ -110,4 +119,5 @@ class DetailedMovieFragmentDB : DetailedMovieFragmentParent() {
         Navigation.findNavController(binding.root)
             .navigate(R.id.action_detailedMovieFragmentDB_to_detailedActorFragment2, bundle)
     }
+
 }

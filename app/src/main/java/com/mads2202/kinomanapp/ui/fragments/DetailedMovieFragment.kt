@@ -23,6 +23,7 @@ import com.mads2202.kinomanapp.util.networkUtil.Status
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -64,38 +65,8 @@ class DetailedMovieFragment() : DetailedMovieFragmentParent() {
         binding.director.setOnClickListener {
             navigateToDetailedPersonFragment(director.directorId)
         }
-        binding.like.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.IO) {
-                if (movieRepositoryDB.getMovieById(movie.id) != null) {
-                    binding.like.isClickable = false
-                } else {
-                    val movieDB = MovieDB(
-                        movieId = movie.id,
-                        movieDirectorId = director.directorId,
-                        budget = movie.budget,
-                        genres = movie.genres,
-                        overview = movie.overview,
-                        posterPath = movie.posterPath,
-                        releaseDate = movie.releaseDate,
-                        voteAverage = movie.voteAverage,
-                        tagline = movie.tagline,
-                        title = movie.title,
-                        status = movie.status
-                    )
-                    movieRepositoryDB.addMovie(movieDB)
-                    movieRepositoryDB.addDirector(director)
-                    movieRepositoryDB.addActors(listOf(actor1, actor2, actor3, actor4))
-                    movieRepositoryDB.addMovieActorCrossRef(
-                        listOf(
-                            MovieActorCrossRef(movieDB.movieId, actor1.actorId),
-                            MovieActorCrossRef(movieDB.movieId, actor2.actorId),
-                            MovieActorCrossRef(movieDB.movieId, actor3.actorId),
-                            MovieActorCrossRef(movieDB.movieId, actor4.actorId)
-                        )
-                    )
-                }
-            }
-        }
+        setupClickListener()
+
     }
 
 
@@ -110,7 +81,8 @@ class DetailedMovieFragment() : DetailedMovieFragmentParent() {
             when (it.status) {
                 Status.SUCCESS -> {
                     binding.detailedMoviePageProgressCircular.visibility = View.GONE
-                    it.data?.let { movie ->
+                    it.data?.let { it ->
+                        movie = it
                         bindMovie(movie)
                     }
 
