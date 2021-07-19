@@ -53,7 +53,7 @@ class MoviesListFragment : Fragment() {
             binding.movieListProgressCircular.visibility = View.GONE
             /*loadingData()*/
         } else {
-            binding.movieListFragmentRecyclerView.visibility = View.GONE
+            binding.recyclerView.visibility = View.GONE
             binding.movieListProgressCircular.visibility = View.VISIBLE
         }
         return mView
@@ -61,7 +61,7 @@ class MoviesListFragment : Fragment() {
 
 
     private fun setupUI() {
-        val recyclerView: RecyclerView = binding.movieListFragmentRecyclerView
+        val recyclerView: RecyclerView = binding.recyclerView
         recyclerView.layoutManager =
             LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
         movieAdapter = MovieAdapter()

@@ -33,8 +33,8 @@
         android:label="ActorsListFragment"
         tools:layout="@layout/list_fragment">
         <action
-            android:id="@+id/action_actorsListFragment_to_detailedMovieFragment"
-            app:destination="@id/detailedMovieFragment" />
+            android:id="@+id/action_actorsListFragment_to_detailedActorFragment2"
+            app:destination="@id/detailedActorFragment2" />
     </fragment>
     <fragment
         android:id="@+id/favoriteMoviesListFragment"

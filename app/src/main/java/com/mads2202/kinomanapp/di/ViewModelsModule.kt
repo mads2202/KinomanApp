@@ -10,4 +10,6 @@ val viewModelsModule = module {
     viewModel { FavoriteMovieViewModel(get()) }
     viewModel { PersonViewModel(get()) }
     viewModel { DetailedFavoriteMovieViewModel(get()) }
+    viewModel { PersonListViewModel(get()) }
 }
+

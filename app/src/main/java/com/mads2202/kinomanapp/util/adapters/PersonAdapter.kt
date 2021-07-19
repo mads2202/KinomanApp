@@ -16,8 +16,14 @@ import com.mads2202.kinomanapp.model.jsonModel.personModel.Person
 
 class PersonAdapter(val persons: ArrayList<Person>) :
     RecyclerView.Adapter<PersonAdapter.PersonVH>() {
+    lateinit var itemClickListener: MovieAdapter.OnItemClickListener
     inner class PersonVH(val binding: PeopleListItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.root.setOnClickListener {
+                itemClickListener?.onItemClick(it, bindingAdapterPosition)
+            }
+        }
         fun bind(person: Person) {
             binding.actorDepartment.text = person.knownForDepartment
             binding.actorName.text = person.name
@@ -30,7 +36,8 @@ class PersonAdapter(val persons: ArrayList<Person>) :
                         target: Target<Drawable>?,
                         isFirstResource: Boolean
                     ): Boolean {
-                        binding.progressCircular.visibility = View.VISIBLE
+
+                        binding.actorPhoto.visibility = View.GONE
 
                         return false
                     }
@@ -42,7 +49,7 @@ class PersonAdapter(val persons: ArrayList<Person>) :
                         dataSource: DataSource?,
                         isFirstResource: Boolean
                     ): Boolean {
-                        binding.progressCircular.visibility = View.GONE
+
                         binding.actorPhoto.visibility = View.VISIBLE
                         return false
                     }
@@ -57,7 +64,7 @@ class PersonAdapter(val persons: ArrayList<Person>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonVH {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.people_list_item_layout, parent, false)
-        val binding=PeopleListItemLayoutBinding.bind(view)
+        val binding = PeopleListItemLayoutBinding.bind(view)
         return PersonVH(binding)
     }
 
