@@ -13,14 +13,14 @@ import retrofit2.Response
 
 
 class PersonListViewModel(val personRepository: PersonRepository) : ViewModel() {
-    lateinit var persons:Flow<Response<Person>>
+    lateinit var persons: Flow<Response<Person>>
 
     init {
         loadPersons()
     }
 
     private fun loadPersons() {
-         persons=flow {
+        persons = flow {
             for (i in 1..1000) {
                 emit(personRepository.getPerson(i))
             }

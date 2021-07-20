@@ -16,8 +16,10 @@ class MovieRepositoryDB(val movieDao: MovieDao) {
     public suspend fun getMovieWithActors(id: Int): MovieWithActor = movieDao.getMovieWithActors(id)
     public suspend fun addMovieActorCrossRef(movieActorCrossRef: List<MovieActorCrossRef>) =
         movieDao.addMovieActorCrossRef(movieActorCrossRef)
+
     public suspend fun deleteMovie(id: Int) = movieDao.deleteMovie(id)
-    public suspend fun deleteDirector(movieId:Int) = movieDao.deleteDirector(movieId)
-    public suspend fun deleteActor(movieId:Int) = movieDao.deleteActor(movieId)
-    public suspend fun deleteMovieActorCrossRef(movieId:Int) = movieDao.deleteMovieActorCrossRef(movieId)
+    public suspend fun deleteDirector(movieId: Int) = movieDao.deleteDirector(movieId)
+    public suspend fun deleteActor(movieId: Int) = movieDao.deleteActor(movieId)
+    public suspend fun deleteMovieActorCrossRef(movieId: Int) =
+        movieDao.deleteMovieActorCrossRef(movieId)
 }

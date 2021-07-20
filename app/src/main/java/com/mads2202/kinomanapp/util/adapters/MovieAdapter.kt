@@ -16,15 +16,16 @@ import com.mads2202.kinomanapp.databinding.MovieListItemLayoutBinding
 import com.mads2202.kinomanapp.model.jsonModel.moviesModel.Movie
 
 class MovieAdapter : PagingDataAdapter<Movie, MovieAdapter.MovieViewHolder>(DataDifferntiator) {
-     var itemClickListener: OnItemClickListener?=null
+    var itemClickListener: OnItemClickListener? = null
 
     inner class MovieViewHolder(val binding: MovieListItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.root.setOnClickListener{
-                itemClickListener?.onItemClick(it,bindingAdapterPosition)
+            binding.root.setOnClickListener {
+                itemClickListener?.onItemClick(it, bindingAdapterPosition)
             }
         }
+
         fun bind(upcomingMovie: Movie) {
             Glide.with(binding.root)
                 .load("https://image.tmdb.org/t/p/original/" + upcomingMovie.poster_path)

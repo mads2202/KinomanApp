@@ -26,7 +26,7 @@ private fun provideOkHttpClient(): OkHttpClient {
     return OkHttpClient.Builder()
         .addInterceptor(object : Interceptor {
             @Throws(IOException::class)
-            override fun intercept(chain: Interceptor.Chain): Response? {
+            override fun intercept(chain: Interceptor.Chain): Response {
                 val original: Request = chain.request()
                 val originalHttpUrl: HttpUrl = original.url()
                 val url = originalHttpUrl.newBuilder()

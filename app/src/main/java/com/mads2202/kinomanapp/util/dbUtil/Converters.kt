@@ -5,19 +5,20 @@ import com.mads2202.kinomanapp.model.jsonModel.moviesModel.Genres
 
 class Converters {
     @TypeConverter
-    fun fromGenresListToString(genres:List<Genres>):String{
-        val stringBuilder=StringBuilder()
+    fun fromGenresListToString(genres: List<Genres>): String {
+        val stringBuilder = StringBuilder()
         genres.forEach {
             stringBuilder.append(it.name).append(',')
         }
 
         return stringBuilder.toString()
     }
-    @TypeConverter
-    fun fromStringToGenres(genreString: String):List<Genres>{
-        val genres=ArrayList<Genres>()
 
-        genreString.split(",").forEach{
+    @TypeConverter
+    fun fromStringToGenres(genreString: String): List<Genres> {
+        val genres = ArrayList<Genres>()
+
+        genreString.split(",").forEach {
             genres.add(Genres(it))
         }
         return genres

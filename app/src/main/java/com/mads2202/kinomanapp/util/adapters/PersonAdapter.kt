@@ -17,6 +17,7 @@ import com.mads2202.kinomanapp.model.jsonModel.personModel.Person
 class PersonAdapter(val persons: ArrayList<Person>) :
     RecyclerView.Adapter<PersonAdapter.PersonVH>() {
     lateinit var itemClickListener: MovieAdapter.OnItemClickListener
+
     inner class PersonVH(val binding: PeopleListItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
@@ -24,6 +25,7 @@ class PersonAdapter(val persons: ArrayList<Person>) :
                 itemClickListener?.onItemClick(it, bindingAdapterPosition)
             }
         }
+
         fun bind(person: Person) {
             binding.actorDepartment.text = person.knownForDepartment
             binding.actorName.text = person.name

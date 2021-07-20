@@ -23,7 +23,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class FavoriteMoviesListFragment : Fragment() {
     private val favoriteMovieViewModel: FavoriteMovieViewModel by viewModel()
     private lateinit var binding: FavoriteMoviesFragmentLayoutBinding
-    private lateinit var adapter: FavoriteMovieAdapter
+    private val adapter: FavoriteMovieAdapter = FavoriteMovieAdapter(arrayListOf())
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,7 +40,6 @@ class FavoriteMoviesListFragment : Fragment() {
         val recyclerView: RecyclerView = binding.favoriteMoviesRecycler
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        adapter = FavoriteMovieAdapter(arrayListOf())
         recyclerView.adapter = adapter
         recyclerView.addItemDecoration(
             DividerItemDecoration(requireActivity(), LinearLayoutManager.VERTICAL)

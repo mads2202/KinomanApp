@@ -9,8 +9,9 @@ import retrofit2.http.Path
 
 interface PersonApiService {
     @GET("person/{person_id}")
-    suspend fun getPerson(@Path("person_id") id:Int):Response<Person>
+    suspend fun getPerson(@Path("person_id") id: Int): Response<Person>
+
     @GET("person/{person_id}/movie_credits")
-    suspend fun getPersonMovies(@Path("person_id") id:Int):Response<PersonMoviesRequest>
+    suspend fun getPersonMovies(@Path("person_id") id: Int): Response<PersonMoviesRequest>
 
 }

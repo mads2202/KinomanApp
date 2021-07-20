@@ -27,39 +27,39 @@ class FavoriteMovieAdapter(val movies: ArrayList<MovieDB>) :
         }
 
         fun bind(movie: MovieDB) {
-                Glide.with(binding.root)
-                    .load("https://image.tmdb.org/t/p/original/" + movie.posterPath)
-                    .listener(object : RequestListener<Drawable> {
-                        override fun onLoadFailed(
-                            e: GlideException?,
-                            model: Any?,
-                            target: Target<Drawable>?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            binding.progressCircular.visibility = View.VISIBLE
-                            return false
-                        }
+            Glide.with(binding.root)
+                .load("https://image.tmdb.org/t/p/original/" + movie.posterPath)
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        binding.progressCircular.visibility = View.VISIBLE
+                        return false
+                    }
 
-                        override fun onResourceReady(
-                            resource: Drawable?,
-                            model: Any?,
-                            target: Target<Drawable>?,
-                            dataSource: DataSource?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            binding.progressCircular.visibility = View.GONE
-                            binding.poster.visibility = View.VISIBLE
-                            return false
-                        }
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        binding.progressCircular.visibility = View.GONE
+                        binding.poster.visibility = View.VISIBLE
+                        return false
+                    }
 
-                    })
-                    .thumbnail(0.3f)
-                    .into(binding.poster)
-                binding.title.text = movie.title
-                binding.releaseDate.text = movie.releaseDate
-                binding.rating.text = movie.voteAverage.toString()
-            }
+                })
+                .thumbnail(0.3f)
+                .into(binding.poster)
+            binding.title.text = movie.title
+            binding.releaseDate.text = movie.releaseDate
+            binding.rating.text = movie.voteAverage.toString()
         }
+    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteMovieVH {
