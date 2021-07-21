@@ -4,20 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.databinding.DetailedMoviePageFragmentBinding
 import com.mads2202.kinomanapp.model.jsonModel.moviesModel.DetailedMovie
 import com.mads2202.kinomanapp.model.roomModel.MovieDB
-import com.mads2202.kinomanapp.room.repository.MovieRepositoryDB
 import com.mads2202.kinomanapp.ui.viewModels.DetailedFavoriteMovieViewModel
 import com.mads2202.kinomanapp.util.ID
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.koin.android.ext.android.inject
-
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -42,19 +34,34 @@ class DetailedMovieFragmentDB : DetailedMovieFragmentParent() {
     private fun setupUI() {
         binding.detailedMoviePageProgressCircular.visibility = View.GONE
         binding.actor1.setOnClickListener {
-            navigateToDetailedPersonFragment(actor1.actorId)
+            navigateToDetailedPersonFragment(
+                actor1.actorId,
+                R.id.action_detailedMovieFragmentDB_to_detailedActorFragment2
+            )
         }
         binding.actor2.setOnClickListener {
-            navigateToDetailedPersonFragment(actor2.actorId)
+            navigateToDetailedPersonFragment(
+                actor2.actorId,
+                R.id.action_detailedMovieFragmentDB_to_detailedActorFragment2
+            )
         }
         binding.actor3.setOnClickListener {
-            navigateToDetailedPersonFragment(actor3.actorId)
+            navigateToDetailedPersonFragment(
+                actor3.actorId,
+                R.id.action_detailedMovieFragmentDB_to_detailedActorFragment2
+            )
         }
         binding.actor4.setOnClickListener {
-            navigateToDetailedPersonFragment(actor4.actorId)
+            navigateToDetailedPersonFragment(
+                actor4.actorId,
+                R.id.action_detailedMovieFragmentDB_to_detailedActorFragment2
+            )
         }
         binding.director.setOnClickListener {
-            navigateToDetailedPersonFragment(director.directorId)
+            navigateToDetailedPersonFragment(
+                director.directorId,
+                R.id.action_detailedMovieFragmentDB_to_detailedActorFragment2
+            )
         }
         setupClickListener()
     }
@@ -111,13 +118,6 @@ class DetailedMovieFragmentDB : DetailedMovieFragmentParent() {
             director = it
             binding.director.text = it.name
         })
-    }
-
-    fun navigateToDetailedPersonFragment(id: Int) {
-        val bundle = Bundle()
-        bundle.putInt(ID, id)
-        Navigation.findNavController(binding.root)
-            .navigate(R.id.action_detailedMovieFragmentDB_to_detailedActorFragment2, bundle)
     }
 
 }

@@ -55,7 +55,11 @@
             app:argType="integer" />
         <action
             android:id="@+id/action_detailedActorFragment2_to_detailedMovieFragment2"
-            app:destination="@id/detailedMovieFragment" />
+            app:destination="@id/detailedMovieFragment" >
+            <argument
+                android:name="id"
+                android:defaultValue="1" />
+        </action>
         <action
             android:id="@+id/action_detailedActorFragment2_to_mapsFragment"
             app:destination="@id/mapsFragment" />

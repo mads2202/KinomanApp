@@ -163,9 +163,10 @@ class DetailedActorFragment : Fragment() {
                     //может быть потом прогресс бар сюда поставлю
                 }
                 Status.SUCCESS -> {
+                    var personMovie: PersonMovies
                     it.data?.let { personRolesList ->
                         personRolesList.forEach { personRole ->
-                            val personMovie = PersonMovies(
+                            personMovie = PersonMovies(
                                 personRole.id,
                                 personRole.character,
                                 personRole.posterPath,
@@ -173,7 +174,9 @@ class DetailedActorFragment : Fragment() {
                                 personRole.voteAverage,
                                 personRole.releaseDate
                             )
-                            if (!personMovieList.contains(personMovie)) {
+                            if (!personMovieList.contains(personMovie) ||
+                                personMovie.posterPath != null
+                            ) {
                                 personMovieList.add(personMovie)
                             }
                         }
@@ -192,6 +195,7 @@ class DetailedActorFragment : Fragment() {
                     //может быть потом прогресс бар сюда поставлю
                 }
                 Status.SUCCESS -> {
+                    var personMovie: PersonMovies
                     it.data?.let { personCrewWorkList ->
                         personCrewWorkList.forEach { personCrewWork ->
                             val personMovie = PersonMovies(
@@ -202,7 +206,9 @@ class DetailedActorFragment : Fragment() {
                                 personCrewWork.voteAverage,
                                 personCrewWork.releaseDate
                             )
-                            if (!personMovieList.contains(personMovie)) {
+                            if (!personMovieList.contains(personMovie) ||
+                                personMovie.posterPath != null
+                            ) {
                                 personMovieList.add(personMovie)
                             }
 

@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mads2202.kinomanapp.model.jsonModel.moviesModel.DetailedMovie
 import com.mads2202.kinomanapp.model.jsonModel.moviesModel.MovieParticipantRequest
-import com.mads2202.kinomanapp.retrofit.movieApi.MovieApiService
 import com.mads2202.kinomanapp.retrofit.movieApi.MovieRepository
 import com.mads2202.kinomanapp.util.networkUtil.Resource
 import kotlinx.coroutines.launch
@@ -16,6 +15,7 @@ class DetailedMovieViewModel(private val movieRepository: MovieRepository) : Vie
     var id: Int = 1
 
     fun loadDetailedMovie() {
+
         viewModelScope.launch {
             val response = movieRepository.getDetailedMovieInfo(id)
             detailedMovieLiveData.postValue(Resource.loading(null))

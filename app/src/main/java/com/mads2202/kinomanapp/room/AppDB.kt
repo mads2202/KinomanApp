@@ -17,7 +17,7 @@ import com.mads2202.kinomanapp.util.dbUtil.Converters
         Director::class,
         Actor::class,
         MovieActorCrossRef::class
-    ), version = 7
+    ), version = 11
 )
 @TypeConverters(Converters::class)
 abstract class AppDB : RoomDatabase() {

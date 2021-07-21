@@ -8,12 +8,10 @@ import androidx.room.PrimaryKey
     tableName = "actor", indices = arrayOf(
         Index(
             "actorId",
-            unique = true
         )
-    )
+    ), primaryKeys = ["actorId", "movieID"]
 )
 data class Actor(
-    @PrimaryKey
     val actorId: Int,
     var name: String,
     var movieID: Int

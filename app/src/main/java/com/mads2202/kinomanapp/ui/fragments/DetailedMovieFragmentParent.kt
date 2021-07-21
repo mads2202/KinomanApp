@@ -1,9 +1,11 @@
 package com.mads2202.kinomanapp.ui.fragments
 
 import android.graphics.drawable.Drawable
+import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -28,11 +30,11 @@ open class DetailedMovieFragmentParent : Fragment() {
     private val movieRepositoryDB: MovieRepositoryDB by inject()
     lateinit var binding: DetailedMoviePageFragmentBinding
     lateinit var movie: DetailedMovie
-    protected lateinit var actor1: Actor
-    protected lateinit var actor2: Actor
-    protected lateinit var actor3: Actor
-    protected lateinit var actor4: Actor
-    protected lateinit var director: Director
+    protected var actor1: Actor = Actor(1, "", 1)
+    protected var actor2: Actor = Actor(1, "", 1)
+    protected var actor3: Actor = Actor(1, "", 1)
+    protected var actor4: Actor = Actor(1, "", 1)
+    protected var director: Director = Director(1, "", 1)
 
 
     open fun bindMovie(movie: DetailedMovie) {
@@ -93,7 +95,7 @@ open class DetailedMovieFragmentParent : Fragment() {
     open fun bindMovieParticipant(movieParticipants: MovieParticipantRequest) {
         movieParticipants.crew.forEach {
             if (it.job == "Director") {
-                director = Director(it.id, it.name, movie.id)
+                director = Director(it.id, it.name, requireArguments().getInt(ID))
 
 
             }
@@ -115,7 +117,11 @@ open class DetailedMovieFragmentParent : Fragment() {
             1 -> {
                 binding.actor1.text = movieParticipants.cast[0].name
                 actor1 =
-                    Actor(movieParticipants.cast[0].id, movieParticipants.cast[0].name, movie.id)
+                    Actor(
+                        movieParticipants.cast[0].id,
+                        movieParticipants.cast[0].name,
+                        requireArguments().getInt(ID)
+                    )
             }
 
 
@@ -124,20 +130,40 @@ open class DetailedMovieFragmentParent : Fragment() {
                 binding.actor1.text = movieParticipants.cast[0].name
                 binding.actor2.text = movieParticipants.cast[1].name
                 actor1 =
-                    Actor(movieParticipants.cast[0].id, movieParticipants.cast[0].name, movie.id)
+                    Actor(
+                        movieParticipants.cast[0].id,
+                        movieParticipants.cast[0].name,
+                        requireArguments().getInt(ID)
+                    )
                 actor2 =
-                    Actor(movieParticipants.cast[1].id, movieParticipants.cast[1].name, movie.id)
+                    Actor(
+                        movieParticipants.cast[1].id,
+                        movieParticipants.cast[1].name,
+                        requireArguments().getInt(ID)
+                    )
             }
             3 -> {
                 binding.actor1.text = movieParticipants.cast[0].name
                 binding.actor2.text = movieParticipants.cast[1].name
                 binding.actor3.text = movieParticipants.cast[2].name
                 actor1 =
-                    Actor(movieParticipants.cast[0].id, movieParticipants.cast[0].name, movie.id)
+                    Actor(
+                        movieParticipants.cast[0].id,
+                        movieParticipants.cast[0].name,
+                        requireArguments().getInt(ID)
+                    )
                 actor2 =
-                    Actor(movieParticipants.cast[1].id, movieParticipants.cast[1].name, movie.id)
+                    Actor(
+                        movieParticipants.cast[1].id,
+                        movieParticipants.cast[1].name,
+                        requireArguments().getInt(ID)
+                    )
                 actor3 =
-                    Actor(movieParticipants.cast[2].id, movieParticipants.cast[2].name, movie.id)
+                    Actor(
+                        movieParticipants.cast[2].id,
+                        movieParticipants.cast[2].name,
+                        requireArguments().getInt(ID)
+                    )
             }
             else -> {
                 binding.actor1.text = movieParticipants.cast[0].name
@@ -145,13 +171,29 @@ open class DetailedMovieFragmentParent : Fragment() {
                 binding.actor3.text = movieParticipants.cast[2].name
                 binding.actor4.text = movieParticipants.cast[3].name
                 actor1 =
-                    Actor(movieParticipants.cast[0].id, movieParticipants.cast[0].name, movie.id)
+                    Actor(
+                        movieParticipants.cast[0].id,
+                        movieParticipants.cast[0].name,
+                        requireArguments().getInt(ID)
+                    )
                 actor2 =
-                    Actor(movieParticipants.cast[1].id, movieParticipants.cast[1].name, movie.id)
+                    Actor(
+                        movieParticipants.cast[1].id,
+                        movieParticipants.cast[1].name,
+                        requireArguments().getInt(ID)
+                    )
                 actor3 =
-                    Actor(movieParticipants.cast[2].id, movieParticipants.cast[2].name, movie.id)
+                    Actor(
+                        movieParticipants.cast[2].id,
+                        movieParticipants.cast[2].name,
+                        requireArguments().getInt(ID)
+                    )
                 actor4 =
-                    Actor(movieParticipants.cast[3].id, movieParticipants.cast[3].name, movie.id)
+                    Actor(
+                        movieParticipants.cast[3].id,
+                        movieParticipants.cast[3].name,
+                        requireArguments().getInt(ID)
+                    )
             }
         }
     }
@@ -172,9 +214,9 @@ open class DetailedMovieFragmentParent : Fragment() {
         binding.dislike.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
                 movieRepositoryDB.deleteMovie(requireArguments().getInt(ID))
-                movieRepositoryDB.deleteActor(movie.id)
-                movieRepositoryDB.deleteDirector(movie.id)
-                movieRepositoryDB.deleteMovieActorCrossRef(movie.id)
+                movieRepositoryDB.deleteActor(requireArguments().getInt(ID))
+                movieRepositoryDB.deleteDirector(requireArguments().getInt(ID))
+                movieRepositoryDB.deleteMovieActorCrossRef(requireArguments().getInt(ID))
                 withContext(Dispatchers.Main) {
                     binding.like.visibility = View.VISIBLE
                     binding.dislike.visibility = View.GONE
@@ -183,7 +225,7 @@ open class DetailedMovieFragmentParent : Fragment() {
         }
         binding.like.setOnClickListener {
             val movieDB = MovieDB(
-                movieId = movie.id,
+                movieId = requireArguments().getInt(ID),
                 movieDirectorId = director.directorId,
                 budget = movie.budget,
                 genres = movie.genres,
@@ -213,5 +255,11 @@ open class DetailedMovieFragmentParent : Fragment() {
         }
     }
 
+    protected fun navigateToDetailedPersonFragment(id: Int, nav_action: Int) {
+        val bundle = Bundle()
+        bundle.putInt(ID, id)
+        Navigation.findNavController(binding.root)
+            .navigate(nav_action, bundle)
+    }
 
 }

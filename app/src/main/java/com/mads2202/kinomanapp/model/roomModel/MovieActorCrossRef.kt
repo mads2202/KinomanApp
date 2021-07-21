@@ -7,8 +7,7 @@ import androidx.room.Index
     tableName = "movieActorCrossRef",
     primaryKeys = ["movieId", "actorId"], indices = arrayOf(
         Index(
-            "actorId",
-            unique = true
+            "actorId"
         )
     )
 )
