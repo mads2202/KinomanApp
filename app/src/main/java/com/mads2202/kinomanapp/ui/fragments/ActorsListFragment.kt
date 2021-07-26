@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.databinding.ListFragmentBinding
 import com.mads2202.kinomanapp.databinding.PersonsListFragmentBinding
@@ -41,6 +42,8 @@ class ActorsListFragment : Fragment() {
         val view = inflater.inflate(R.layout.persons_list_fragment, container, false)
         binding = PersonsListFragmentBinding.bind(view)
         personAdapter = PersonAdapter(ArrayList())
+        personAdapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         loadData()
         setupUI()
         return view

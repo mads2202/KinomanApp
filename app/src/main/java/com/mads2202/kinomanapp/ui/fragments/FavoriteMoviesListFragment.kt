@@ -44,6 +44,8 @@ class FavoriteMoviesListFragment : Fragment() {
         recyclerView.addItemDecoration(
             DividerItemDecoration(requireActivity(), LinearLayoutManager.VERTICAL)
         )
+        adapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         adapter.itemClickListener = object : MovieAdapter.OnItemClickListener {
             override fun onItemClick(view: View?, position: Int) {
                 val movie = adapter.movies[position]

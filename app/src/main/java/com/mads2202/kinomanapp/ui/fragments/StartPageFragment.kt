@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.databinding.StartPageFragmentLayoutBinding
 import com.mads2202.kinomanapp.model.jsonModel.moviesModel.Movie
@@ -56,6 +57,8 @@ class StartPageFragment : Fragment() {
             LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
         upcomingMoviesAdapter = MovieAdapter()
         upcomingMoviesRecycler.adapter = upcomingMoviesAdapter
+        upcomingMoviesAdapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         upcomingMoviesRecycler.addItemDecoration(
             DividerItemDecoration(requireActivity(), LinearLayoutManager.HORIZONTAL)
         )
@@ -65,6 +68,8 @@ class StartPageFragment : Fragment() {
             LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
         popularMoviesAdapter = MovieAdapter()
         popularMoviesRecycler.adapter = popularMoviesAdapter
+        popularMoviesAdapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         popularMoviesRecycler.addItemDecoration(
             DividerItemDecoration(requireActivity(), LinearLayoutManager.HORIZONTAL)
         )
@@ -74,6 +79,8 @@ class StartPageFragment : Fragment() {
             LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
         topRatedMoviesAdapter = MovieAdapter()
         topRatedMovieRecycler.adapter = topRatedMoviesAdapter
+        topRatedMoviesAdapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         topRatedMovieRecycler.addItemDecoration(
             DividerItemDecoration(requireActivity(), LinearLayoutManager.HORIZONTAL)
         )
