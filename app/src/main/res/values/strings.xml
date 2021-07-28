@@ -16,8 +16,6 @@
     <string name="movies">movies</string>
     <string name="favourite_movies">favourite movies</string>
     <string name="actors">actors</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="gender_label">Gender:</string>
     <string name="birtdate_label">Birthdate:</string>
     <string name="deathdate_label">Deathdate</string>

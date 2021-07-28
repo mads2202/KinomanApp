@@ -68,9 +68,11 @@ class FavoriteMoviesListFragment : Fragment() {
     }
 
     private fun refreshAdapter(movies: List<MovieDB>) {
-        adapter.movies.addAll(movies)
+        movies.forEach { it ->
+            if (!adapter.movies.contains(it)) {
+                adapter.movies.add(it)
+            }
+        }
         adapter.notifyDataSetChanged()
     }
-
-
 }

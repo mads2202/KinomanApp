@@ -293,21 +293,13 @@
             android:text="@string/dislike"
             app:layout_goneMarginEnd="0dp" />
 
-        <Button
-            android:id="@+id/share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/share"
-            app:layout_goneMarginStart="0dp" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/detailed_movie_page_elements_group"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:constraint_referenced_ids="actors_label,genres_label,title,director_label
-            ,director,budget_label,budget,genres,like,share,poster,actors,short_descriptions,
+            ,director,budget_label,budget,genres,like,poster,actors,short_descriptions,
             detailed_movie_poster_progress_circular,dislike" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
