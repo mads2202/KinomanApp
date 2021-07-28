@@ -1,6 +1,5 @@
 package com.mads2202.kinomanapp.model.jsonModel.personModel
 
-
 data class PersonMovies(
     var id: Int,
     var job: String?,

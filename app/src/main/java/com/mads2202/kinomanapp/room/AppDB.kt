@@ -8,16 +8,10 @@ import com.mads2202.kinomanapp.model.roomModel.Actor
 import com.mads2202.kinomanapp.model.roomModel.Director
 import com.mads2202.kinomanapp.model.roomModel.MovieActorCrossRef
 import com.mads2202.kinomanapp.model.roomModel.MovieDB
-import com.mads2202.kinomanapp.util.dbUtil.Converters
-
 
 @Database(
-    entities = arrayOf(
-        MovieDB::class,
-        Director::class,
-        Actor::class,
-        MovieActorCrossRef::class
-    ), version = 12
+    entities = [MovieDB::class, Director::class, Actor::class, MovieActorCrossRef::class],
+    version = 12
 )
 @TypeConverters(Converters::class)
 abstract class AppDB : RoomDatabase() {

@@ -13,7 +13,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.mads2202.kinomanapp.R
-import com.mads2202.kinomanapp.util.LOCATION_NAME
+import com.mads2202.kinomanapp.common.LOCATION_NAME
 
 class MapsFragment : Fragment(), OnMapReadyCallback {
     private val MAX_RESULT: Int = 1
@@ -28,12 +28,12 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
-        val geoCoder: Geocoder = Geocoder(requireContext())
+        val geoCoder = Geocoder(requireContext())
         val adress =
             geoCoder.getFromLocationName(requireArguments().getString(LOCATION_NAME), MAX_RESULT)
 
         val myMarker = LatLng(adress[0].latitude, adress[0].longitude)
-        googleMap.addMarker(MarkerOptions().position(myMarker).title("Marker in myMarker"))
+        googleMap.addMarker(MarkerOptions().position(myMarker).title(getString(R.string.place_of_birth)))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(myMarker))
         googleMap.uiSettings.isZoomControlsEnabled = true
     }
@@ -54,6 +54,5 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-
     }
 }

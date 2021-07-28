@@ -1,4 +1,4 @@
-package com.mads2202.kinomanapp.util.networkUtil
+package com.mads2202.kinomanapp.common
 
 data class Resource<out T>(val status: Status, val data: T?, val message: String?) {
 
@@ -17,5 +17,4 @@ data class Resource<out T>(val status: Status, val data: T?, val message: String
         }
 
     }
-
 }

@@ -12,4 +12,3 @@ val viewModelsModule = module {
     viewModel { DetailedFavoriteMovieViewModel(get()) }
     viewModel { PersonListViewModel(get()) }
 }
-

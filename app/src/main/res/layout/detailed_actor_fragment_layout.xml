@@ -275,7 +275,7 @@
             app:constraint_referenced_ids="actor_photo,actor_name,actor_gender_label,gender,
                 biography_label,birthdate,department_label,department,deathdate_label,deathdate,
                 place_of_birth_label,place_of_birth,biography_label,short_descriptions,films_label,
-                actor_films_list,person_recycler_view" />
+                actor_films_list,person_recycler_view,birthdate_label" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progress_circular"
@@ -296,15 +296,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/photoProgressCircular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@+id/end_guideline"
-            app:layout_constraintStart_toStartOf="@+id/start_guideline"
-            app:layout_constraintTop_toTopOf="@+id/actor_name"
-            app:layout_constraintBottom_toBottomOf="@id/title_poster_bottom_barrier"
-            app:layout_constraintHorizontal_bias="1"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

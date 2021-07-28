@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="500dp"
     app:cardCornerRadius="5dp"
     app:cardElevation="15dp">
 
@@ -18,29 +18,20 @@
             android:layout_width="270dp"
             android:layout_height="400dp"
             android:scaleType="centerCrop"
+            app:layout_constraintVertical_bias="0"
             app:layout_constraintBottom_toTopOf="@id/movie_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars" />
 
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/movie_poster_progress_circular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/guideline_margin"
-            android:indeterminate="true"
-            app:layout_constraintBottom_toTopOf="@+id/movie_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="poster,movie_poster_progress_circular"
+            app:constraint_referenced_ids="poster"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -65,20 +56,33 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
+            app:layout_constrainedHeight="true"
             app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="@+id/bottom_barrier"
             app:layout_constraintEnd_toEndOf="@id/end_guideline"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/start_guideline"
             app:layout_constraintTop_toBottomOf="@+id/barrier"
+            app:layout_constraintVertical_bias="1.0"
             tools:text="Blade Ranner" />
 
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/bottom_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="top"
+            app:constraint_referenced_ids="movie_release_date,movie_rating"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/movie_release_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/guideline_margin"
+            app:layout_constraintBottom_toTopOf="@id/movie_rating"
             app:layout_constraintEnd_toEndOf="@id/end_guideline"
-            app:layout_constraintTop_toBottomOf="@id/movie_title"
+            app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
             tools:text="98" />
 
 
@@ -87,6 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/guideline_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/end_guideline"
             app:layout_constraintTop_toBottomOf="@id/movie_release_date"
             tools:text="7.3" />

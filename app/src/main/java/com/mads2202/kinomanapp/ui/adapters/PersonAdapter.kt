@@ -1,9 +1,11 @@
-package com.mads2202.kinomanapp.util.adapters
+package com.mads2202.kinomanapp.ui.adapters
 
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -15,14 +17,14 @@ import com.mads2202.kinomanapp.databinding.PeopleListItemLayoutBinding
 import com.mads2202.kinomanapp.model.jsonModel.personModel.Person
 
 class PersonAdapter(val persons: ArrayList<Person>) :
-    RecyclerView.Adapter<PersonAdapter.PersonVH>() {
+    PagingDataAdapter<Person, PersonAdapter.PersonVH>(DataDifferntiator) {
     lateinit var itemClickListener: MovieAdapter.OnItemClickListener
 
     inner class PersonVH(val binding: PeopleListItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {
-                itemClickListener?.onItemClick(it, bindingAdapterPosition)
+                itemClickListener.onItemClick(it, bindingAdapterPosition)
             }
         }
 
@@ -31,32 +33,8 @@ class PersonAdapter(val persons: ArrayList<Person>) :
             binding.actorName.text = person.name
             Glide.with(binding.root)
                 .load("https://image.tmdb.org/t/p/original/" + person.profilePath)
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-
-                        binding.actorPhoto.visibility = View.GONE
-
-                        return false
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-
-                        binding.actorPhoto.visibility = View.VISIBLE
-                        return false
-                    }
-
-                })
+                .error(R.drawable.no_image)
+                .placeholder(R.drawable.image_loading)
                 .thumbnail(0.3f)
                 .into(binding.actorPhoto)
 
@@ -71,10 +49,21 @@ class PersonAdapter(val persons: ArrayList<Person>) :
     }
 
     override fun onBindViewHolder(holder: PersonVH, position: Int) {
-        holder.bind(persons[position])
+        getItem(position)?.let { holder.bind(it) }
     }
 
-    override fun getItemCount(): Int {
+    /*override fun getItemCount(): Int {
         return persons.size
+    }*/
+
+    object DataDifferntiator : DiffUtil.ItemCallback<Person>() {
+
+        override fun areItemsTheSame(oldItem: Person, newItem: Person): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Person, newItem: Person): Boolean {
+            return oldItem == newItem
+        }
     }
 }

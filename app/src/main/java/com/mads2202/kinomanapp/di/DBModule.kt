@@ -3,7 +3,6 @@ package com.mads2202.kinomanapp.di
 import android.content.Context
 import androidx.room.Room
 import com.mads2202.kinomanapp.room.AppDB
-import com.mads2202.kinomanapp.room.DAO.MovieDao
 import com.mads2202.kinomanapp.room.repository.MovieRepositoryDB
 import org.koin.dsl.module
 
@@ -18,7 +17,3 @@ private fun provideDB(context: Context) =
         .build()
 
 private fun provideMovieDao(appDB: AppDB) = appDB.movieDao()
-
-
-
-

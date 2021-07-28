@@ -1,5 +1,6 @@
 package com.mads2202.kinomanapp.ui.viewModels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,26 +14,30 @@ import kotlinx.coroutines.launch
 class DetailedFavoriteMovieViewModel(private val movieRepositoryDB: MovieRepositoryDB) :
     ViewModel() {
 
+
     var movieId = 1
-    val detailedMovie = MutableLiveData<MovieDB>()
-    val actors = MutableLiveData<MovieWithActor>()
-    val director = MutableLiveData<Director>()
+    val _detailedMovie = MutableLiveData<MovieDB>()
+    val detailedMovie: LiveData<MovieDB> = _detailedMovie
+    val _actors = MutableLiveData<MovieWithActor>()
+    val actors: LiveData<MovieWithActor> = _actors
+    val _director = MutableLiveData<Director>()
+    val director: LiveData<Director> = _director
 
     fun loadDirector(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            director.postValue(movieRepositoryDB.getDirector(id))
+            _director.postValue(movieRepositoryDB.getDirector(id))
         }
     }
 
     fun loadActors() {
         viewModelScope.launch(Dispatchers.IO) {
-            actors.postValue(movieRepositoryDB.getMovieWithActors(movieId))
+            _actors.postValue(movieRepositoryDB.getMovieWithActors(movieId))
         }
     }
 
     fun loadMovie() {
         viewModelScope.launch(Dispatchers.IO) {
-            detailedMovie.postValue(movieRepositoryDB.getMovieById(movieId))
+            _detailedMovie.postValue(movieRepositoryDB.getMovieById(movieId))
         }
     }
 }

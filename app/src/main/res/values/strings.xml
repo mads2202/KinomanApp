@@ -27,4 +27,10 @@
     <string name="already_in_db">already favorite</string>
     <string name="role">Role:</string>
     <string name="dislike">dislike</string>
+    <string name="director">Director</string>
+    <string name="place_of_birth">Place of birth</string>
+    <string name="unknown">unknown</string>
+    <string name="gender_man">man</string>
+    <string name="gender_woman">woman</string>
+    <string name="alive">alive</string>
 </resources>

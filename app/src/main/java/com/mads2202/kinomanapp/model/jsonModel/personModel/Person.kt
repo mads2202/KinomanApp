@@ -12,5 +12,4 @@ data class Person(
     @SerializedName("biography") var biography: String,
     @SerializedName("place_of_birth") var placeOfBirth: String?,
     @SerializedName("profile_path") var profilePath: String?,
-
-    )
+)

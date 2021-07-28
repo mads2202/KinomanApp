@@ -5,7 +5,7 @@ import com.mads2202.kinomanapp.model.jsonModel.personModel.PersonMoviesRequest
 import retrofit2.Response
 
 class PersonRepository(private val personApiService: PersonApiService) {
-    public suspend fun getPerson(id: Int): Response<Person> = personApiService.getPerson(id)
-    public suspend fun getPersonMovies(id: Int): Response<PersonMoviesRequest> =
+    suspend fun getPerson(id: Int): Response<Person> = personApiService.getPerson(id)
+    suspend fun getPersonMovies(id: Int): Response<PersonMoviesRequest> =
         personApiService.getPersonMovies(id)
 }

@@ -8,5 +8,4 @@ data class MoviesRequest(
     @SerializedName("dates") var dates: Dates,
     @SerializedName("total_pages") var totalPages: Int,
     @SerializedName("total_results") var totalResults: Int
-) {
-}
+)

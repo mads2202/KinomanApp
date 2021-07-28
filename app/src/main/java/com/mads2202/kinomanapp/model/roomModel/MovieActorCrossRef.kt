@@ -5,11 +5,7 @@ import androidx.room.Index
 
 @Entity(
     tableName = "movieActorCrossRef",
-    primaryKeys = ["movieId", "actorId"], indices = arrayOf(
-        Index(
-            "actorId"
-        )
-    )
+    primaryKeys = ["movieId", "actorId"], indices = [Index("actorId")]
 )
 data class MovieActorCrossRef(
     val movieId: Int,

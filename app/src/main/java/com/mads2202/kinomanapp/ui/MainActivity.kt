@@ -2,18 +2,14 @@ package com.mads2202.kinomanapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mads2202.kinomanapp.R
-import com.mads2202.kinomanapp.ui.fragments.MoviesListFragment
-import com.mads2202.kinomanapp.ui.fragments.StartPageFragment
+
 
 class MainActivity : AppCompatActivity() {
-    companion object {
-        const val START_PAGE_FRAGMENT_TAG = "StartPageFragmentTag"
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

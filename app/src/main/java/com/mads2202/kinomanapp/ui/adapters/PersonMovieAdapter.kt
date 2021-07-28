@@ -1,4 +1,4 @@
-package com.mads2202.kinomanapp.util.adapters
+package com.mads2202.kinomanapp.ui.adapters
 
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -22,7 +22,7 @@ class PersonMovieAdapter(val movies: ArrayList<PersonMovies>) :
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {
-                itemClickListener?.onItemClick(it, bindingAdapterPosition)
+                itemClickListener.onItemClick(it, bindingAdapterPosition)
 
             }
         }
@@ -34,30 +34,8 @@ class PersonMovieAdapter(val movies: ArrayList<PersonMovies>) :
             binding.movieRating.text = personMovie.voteAverage.toString()
             Glide.with(binding.root)
                 .load("https://image.tmdb.org/t/p/original/" + personMovie.posterPath)
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        binding.moviePosterProgressCircular.visibility = View.VISIBLE
-                        return false
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        binding.moviePosterProgressCircular.visibility = View.GONE
-                        binding.poster.visibility = View.VISIBLE
-                        return false
-                    }
-
-                })
+                .error(R.drawable.no_image)
+                .placeholder(R.drawable.image_loading)
                 .thumbnail(0.3f)
                 .into(binding.poster)
 

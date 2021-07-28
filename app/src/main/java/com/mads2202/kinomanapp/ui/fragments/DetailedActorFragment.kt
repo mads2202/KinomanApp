@@ -17,21 +17,20 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.databinding.DetailedActorFragmentLayoutBinding
-import com.mads2202.kinomanapp.model.jsonModel.moviesModel.Movie
 import com.mads2202.kinomanapp.model.jsonModel.personModel.Person
 import com.mads2202.kinomanapp.model.jsonModel.personModel.PersonMovies
 import com.mads2202.kinomanapp.ui.viewModels.PersonViewModel
-import com.mads2202.kinomanapp.util.ID
-import com.mads2202.kinomanapp.util.LOCATION_NAME
-import com.mads2202.kinomanapp.util.adapters.MovieAdapter
-import com.mads2202.kinomanapp.util.adapters.PersonMovieAdapter
-import com.mads2202.kinomanapp.util.networkUtil.NetworkHelper
-import com.mads2202.kinomanapp.util.networkUtil.Status
+import com.mads2202.kinomanapp.common.ID
+import com.mads2202.kinomanapp.common.LOCATION_NAME
+import com.mads2202.kinomanapp.ui.adapters.MovieAdapter
+import com.mads2202.kinomanapp.ui.adapters.PersonMovieAdapter
+import com.mads2202.kinomanapp.common.NetworkHelper
+import com.mads2202.kinomanapp.common.Status
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DetailedActorFragment : Fragment() {
     private val personViewModel: PersonViewModel by viewModel()
-    private lateinit var binding: DetailedActorFragmentLayoutBinding
+    private var binding: DetailedActorFragmentLayoutBinding? = null
     private lateinit var personMovieAdapter: PersonMovieAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,125 +41,117 @@ class DetailedActorFragment : Fragment() {
         binding = DetailedActorFragmentLayoutBinding.bind(view)
         personMovieAdapter = PersonMovieAdapter(arrayListOf())
         personViewModel.id = requireArguments().getInt(ID)
-        personViewModel.loadPerson()
-        personViewModel.loadPersonMovies()
-        setupActorObserver()
-        setupActorMovieObserver()
+        if (NetworkHelper(requireContext()).isNetworkConnected()) {
+            personViewModel.loadPerson()
+            personViewModel.loadPersonMovies()
+            setupActorObserver()
+            setupActorMovieObserver()
+        } else {
+            setupNoConnectionUI()
+        }
         return view
     }
 
     private fun setupActorObserver() {
-        personViewModel.persons.observe(requireActivity(), {
-            when (it.status) {
-                Status.LOADING -> {
-                    binding.detailedActorPageElementsGroup.visibility = View.GONE
-                    binding.progressCircular.visibility = View.VISIBLE
-                    binding.refreshButton.visibility = View.GONE
-                }
-                Status.SUCCESS -> {
-                    binding.detailedActorPageElementsGroup.visibility = View.VISIBLE
-                    binding.progressCircular.visibility = View.GONE
-                    binding.refreshButton.visibility = View.GONE
-                    it.data?.let { resourceData -> setupUI(resourceData) }
+        binding?.let { binding ->
+            personViewModel.persons.observe(viewLifecycleOwner, {
+                when (it.status) {
+                    Status.LOADING -> {
+                        binding.detailedActorPageElementsGroup.visibility = View.GONE
+                        binding.progressCircular.visibility = View.VISIBLE
+                        binding.refreshButton.visibility = View.GONE
+                    }
+                    Status.SUCCESS -> {
+                        binding.detailedActorPageElementsGroup.visibility = View.VISIBLE
+                        binding.progressCircular.visibility = View.GONE
+                        binding.refreshButton.visibility = View.GONE
+                        it.data?.let { resourceData -> bindPerson(resourceData) }
 
+                    }
+                    Status.ERROR -> {
+                        binding.detailedActorPageElementsGroup.visibility = View.GONE
+                        binding.progressCircular.visibility = View.GONE
+                        binding.refreshButton.visibility = View.VISIBLE
+                        Toast.makeText(
+                            requireActivity(),
+                            R.string.no_internet_connection,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
-                Status.ERROR -> {
-                    binding.detailedActorPageElementsGroup.visibility = View.GONE
-                    binding.progressCircular.visibility = View.GONE
-                    binding.refreshButton.visibility = View.VISIBLE
-                    Toast.makeText(
-                        requireActivity(),
-                        R.string.no_internet_connection,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        })
+            })
+        }
     }
 
-    private fun setupUI(person: Person) {
-        binding.actorName.text = person.name
-        binding.gender.text = if (person.gender == 2) "man" else "woman"
-        binding.birthdate.text = if (person.birthday == null) "unknown" else person.birthday
-        binding.deathdate.text = if (person.deathday == null) "alive" else person.deathday
-        binding.department.text = person.knownForDepartment
-        binding.placeOfBirth.text = person.placeOfBirth
-        binding.placeOfBirth.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString(LOCATION_NAME, person.placeOfBirth)
-            Navigation.findNavController(binding.root)
-                .navigate(R.id.action_detailedActorFragment2_to_mapsFragment, bundle)
-        }
-        binding.shortDescriptions.text = person.biography
-
-        Glide.with(binding.root)
-            .load("https://image.tmdb.org/t/p/original/" + person.profilePath)
-            .listener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    binding.photoProgressCircular.visibility = View.VISIBLE
-                    binding.actorPhoto.visibility = View.GONE
-
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    binding.photoProgressCircular.visibility = View.GONE
-                    binding.actorPhoto.visibility = View.VISIBLE
-                    return false
-                }
-
-            })
-            .thumbnail(0.3f)
-            .into(binding.actorPhoto)
-        val recyclerView = binding.personRecyclerView
-        recyclerView.layoutManager =
-            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.adapter = personMovieAdapter
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                requireActivity(),
-                LinearLayoutManager.HORIZONTAL
-            )
-        )
-        personMovieAdapter.itemClickListener = object : MovieAdapter.OnItemClickListener {
-            override fun onItemClick(view: View?, position: Int) {
-                val movie = personMovieAdapter.movies[position]
-                val bundle = Bundle()
-                movie.id?.let { bundle.putInt(ID, it) }
-                if (NetworkHelper(requireActivity()).isNetworkConnected()) {
-                    Navigation.findNavController(binding.root)
-                        .navigate(
-                            R.id.action_detailedActorFragment2_to_detailedMovieFragment2,
-                            bundle
-                        )
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        R.string.no_internet_connection,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+    private fun setupNoConnectionUI() {
+        if (!NetworkHelper(requireContext()).isNetworkConnected()) {
+            binding?.let { binding ->
+                binding.detailedActorPageElementsGroup.visibility = View.GONE
+                binding.refreshButton.visibility = View.VISIBLE
             }
         }
+        setupRefreshButtonClickListener()
+    }
+
+    private fun bindPerson(person: Person) {
+        setupRefreshButtonClickListener()
+        if (NetworkHelper(requireContext()).isNetworkConnected()) {
+            binding?.let { binding ->
+                binding.actorName.text = person.name
+                binding.gender.text =
+                    if (person.gender == 2) getString(R.string.gender_man) else getString(
+                        R.string.gender_woman
+                    )
+                binding.birthdate.text = if (person.birthday == null) getString(
+                    R.string.unknown
+                ) else person.birthday
+                binding.deathdate.text =
+                    if (person.deathday == null) getString(R.string.alive) else person.deathday
+                binding.department.text = person.knownForDepartment
+                binding.placeOfBirth.text =
+                    if (person.placeOfBirth != null) person.placeOfBirth else getString(
+                        R.string.unknown
+                    )
+                binding.placeOfBirth.setOnClickListener {
+                    if (NetworkHelper(requireContext()).isNetworkConnected()) {
+                        if (binding.placeOfBirth.text != getString(
+                                R.string.unknown
+                            )
+                        ) {
+                            val bundle = Bundle()
+                            bundle.putString(LOCATION_NAME, person.placeOfBirth)
+                            Navigation.findNavController(binding.root)
+                                .navigate(
+                                    R.id.action_detailedActorFragment2_to_mapsFragment,
+                                    bundle
+                                )
+                        }
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            R.string.no_internet_connection,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+                binding.shortDescriptions.text = person.biography
+            }
+            loadActorPhoto(person)
+            setActorMovieClickListener()
+        } else {
+            binding?.let {
+                it.detailedActorPageElementsGroup.visibility = View.GONE
+                it.refreshButton.visibility = View.VISIBLE
+            }
+        }
+
     }
 
     private fun setupActorMovieObserver() {
         val personMovieList = ArrayList<PersonMovies>()
-        personViewModel.roles.observe(requireActivity(), {
+        personViewModel.roles.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.LOADING -> {
-                    //может быть потом прогресс бар сюда поставлю
                 }
                 Status.SUCCESS -> {
                     var personMovie: PersonMovies
@@ -184,18 +175,15 @@ class DetailedActorFragment : Fragment() {
 
                 }
                 Status.ERROR -> {
-                    //может быть потом что-то сюда поставлю
                 }
             }
             refreshAdapterData(personMovieList)
         })
-        personViewModel.crewsMember.observe(requireActivity(), {
+        personViewModel.crewsMember.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.LOADING -> {
-                    //может быть потом прогресс бар сюда поставлю
                 }
                 Status.SUCCESS -> {
-                    var personMovie: PersonMovies
                     it.data?.let { personCrewWorkList ->
                         personCrewWorkList.forEach { personCrewWork ->
                             val personMovie = PersonMovies(
@@ -217,7 +205,6 @@ class DetailedActorFragment : Fragment() {
 
                 }
                 Status.ERROR -> {
-                    //может быть потом что-то сюда поставлю
                 }
             }
             refreshAdapterData(personMovieList)
@@ -225,7 +212,77 @@ class DetailedActorFragment : Fragment() {
     }
 
     private fun refreshAdapterData(personMovieList: java.util.ArrayList<PersonMovies>) {
-        personMovieAdapter.movies.addAll(personMovieList)
+        personMovieList.forEach { movie ->
+            if (!personMovieAdapter.movies.contains(movie)) {
+                personMovieAdapter.movies.add(movie)
+            }
+        }
         personMovieAdapter.notifyDataSetChanged()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
+
+    private fun setupRefreshButtonClickListener() {
+        binding?.let { binding ->
+            binding.refreshButton.setOnClickListener {
+                if (NetworkHelper(requireContext()).isNetworkConnected()) {
+                    personViewModel.loadPerson()
+                    personViewModel.loadPersonMovies()
+                    binding.refreshButton.visibility = View.GONE
+                    binding.detailedActorPageElementsGroup.visibility = View.VISIBLE
+                    setupActorObserver()
+                    setupActorMovieObserver()
+                }
+            }
+        }
+    }
+
+    private fun loadActorPhoto(person: Person) {
+        binding?.let { binding ->
+            Glide.with(binding.root)
+                .load("https://image.tmdb.org/t/p/original/" + person.profilePath)
+                .error(R.drawable.no_image)
+                .placeholder(R.drawable.image_loading)
+                .thumbnail(0.3f)
+                .into(binding.actorPhoto)
+            val recyclerView = binding.personRecyclerView
+            recyclerView.layoutManager =
+                LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+            recyclerView.adapter = personMovieAdapter
+            recyclerView.addItemDecoration(
+                DividerItemDecoration(
+                    requireActivity(),
+                    LinearLayoutManager.HORIZONTAL
+                )
+            )
+        }
+    }
+
+    private fun setActorMovieClickListener() {
+        binding?.let { binding ->
+            personMovieAdapter.itemClickListener = object : MovieAdapter.OnItemClickListener {
+                override fun onItemClick(view: View?, position: Int) {
+                    val movie = personMovieAdapter.movies[position]
+                    val bundle = Bundle()
+                    bundle.putInt(ID, movie.id)
+                    if (NetworkHelper(requireActivity()).isNetworkConnected()) {
+                        Navigation.findNavController(binding.root)
+                            .navigate(
+                                R.id.action_detailedActorFragment2_to_detailedMovieFragment2,
+                                bundle
+                            )
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            R.string.no_internet_connection,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+        }
     }
 }

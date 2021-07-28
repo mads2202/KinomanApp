@@ -1,8 +1,6 @@
 package com.mads2202.kinomanapp.model.jsonModel.moviesModel
 
-
 import com.google.gson.annotations.SerializedName
-
 
 data class DetailedMovie(
     @SerializedName("budget") var budget: Int,
@@ -18,5 +16,4 @@ data class DetailedMovie(
     @SerializedName("title") var title: String,
     @SerializedName("vote_average") var voteAverage: Double,
     @SerializedName("vote_count") var voteCount: Int
-
 )

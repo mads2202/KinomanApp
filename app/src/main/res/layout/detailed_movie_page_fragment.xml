@@ -34,19 +34,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/detailed_movie_poster_progress_circular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            app:layout_constraintBottom_toTopOf="@id/title_poster_bottom_barrier"
-            app:layout_constraintEnd_toStartOf="@id/end_guideline"
-            app:layout_constraintHeight_default="wrap"
-            app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintStart_toStartOf="@id/start_guideline"
-            app:layout_constraintTop_toTopOf="@+id/title" />
-
-
         <TextView
             android:id="@+id/title"
             android:layout_width="0dp"
@@ -263,7 +250,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
-            app:constraint_referenced_ids="like,share,dislike"
+            app:constraint_referenced_ids="like,dislike"
             app:flow_horizontalBias="0"
             app:flow_horizontalGap="8dp"
             app:flow_horizontalStyle="packed"
@@ -299,8 +286,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:constraint_referenced_ids="actors_label,genres_label,title,director_label
-            ,director,budget_label,budget,genres,like,poster,actors,short_descriptions,
-            detailed_movie_poster_progress_circular,dislike" />
+            ,director,budget_label,budget,genres,like,poster,actors,short_descriptions
+            ,dislike,detailed_movie_page_progress_circular" />
+
+        <Button
+            android:id="@+id/refresh_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/refresh"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

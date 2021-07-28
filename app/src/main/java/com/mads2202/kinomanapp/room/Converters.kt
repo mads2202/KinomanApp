@@ -1,4 +1,4 @@
-package com.mads2202.kinomanapp.util.dbUtil
+package com.mads2202.kinomanapp.room
 
 import androidx.room.TypeConverter
 import com.mads2202.kinomanapp.model.jsonModel.moviesModel.Genres
@@ -22,7 +22,5 @@ class Converters {
             genres.add(Genres(it))
         }
         return genres
-
-
     }
 }

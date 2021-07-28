@@ -27,18 +27,16 @@ class StartPageViewModel(private val movieRepository: MovieRepository) : ViewMod
     lateinit var topRatedMoviesList: Flow<PagingData<Movie>>
 
     fun loadMovies() {
-        upcomingMoviesList = Pager(PagingConfig(10, maxSize = 20, prefetchDistance = 3)) {
+        upcomingMoviesList = Pager(PagingConfig(20, maxSize = 40, prefetchDistance = 10)) {
             UpcomingMoviePostDataSource(movieRepository)
         }.flow.cachedIn(viewModelScope)
 
-        popularMoviesList = Pager(PagingConfig(10, maxSize = 20, prefetchDistance = 3)) {
+        popularMoviesList = Pager(PagingConfig(20, maxSize = 40, prefetchDistance = 10)) {
             PopularMoviePostDataSource(movieRepository)
         }.flow.cachedIn(viewModelScope)
 
-        topRatedMoviesList = Pager(PagingConfig(10, maxSize = 20, prefetchDistance = 3)) {
+        topRatedMoviesList = Pager(PagingConfig(20, maxSize = 40, prefetchDistance = 10)) {
             TopRatedPostDataSource(movieRepository)
         }.flow.cachedIn(viewModelScope)
     }
-
-
 }

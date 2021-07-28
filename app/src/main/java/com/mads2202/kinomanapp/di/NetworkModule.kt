@@ -1,6 +1,5 @@
 package com.mads2202.kinomanapp.di
 
-
 import com.mads2202.kinomanapp.retrofit.movieApi.MovieApiService
 import com.mads2202.kinomanapp.retrofit.peopleApi.PersonApiService
 import okhttp3.*
@@ -9,7 +8,6 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
-
 
 private const val BASE_URL = "https://api.themoviedb.org/3/"
 
@@ -28,7 +26,7 @@ private fun provideOkHttpClient(): OkHttpClient {
             @Throws(IOException::class)
             override fun intercept(chain: Interceptor.Chain): Response {
                 val original: Request = chain.request()
-                val originalHttpUrl: HttpUrl = original.url()
+                val originalHttpUrl: HttpUrl = original.url
                 val url = originalHttpUrl.newBuilder()
                     .addQueryParameter("api_key", "0e1b920b4ec305f7bc0185bf9f16ee60")
                     .build()

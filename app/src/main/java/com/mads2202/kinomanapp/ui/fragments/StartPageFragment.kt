@@ -15,9 +15,9 @@ import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.databinding.StartPageFragmentLayoutBinding
 import com.mads2202.kinomanapp.model.jsonModel.moviesModel.Movie
 import com.mads2202.kinomanapp.ui.viewModels.StartPageViewModel
-import com.mads2202.kinomanapp.util.ID
-import com.mads2202.kinomanapp.util.adapters.MovieAdapter
-import com.mads2202.kinomanapp.util.networkUtil.NetworkHelper
+import com.mads2202.kinomanapp.common.ID
+import com.mads2202.kinomanapp.ui.adapters.MovieAdapter
+import com.mads2202.kinomanapp.common.NetworkHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -27,10 +27,10 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class StartPageFragment : Fragment() {
 
     private val startPageViewModel: StartPageViewModel by viewModel()
-    private lateinit var binding: StartPageFragmentLayoutBinding
-    private lateinit var upcomingMoviesAdapter: MovieAdapter
-    private lateinit var popularMoviesAdapter: MovieAdapter
-    private lateinit var topRatedMoviesAdapter: MovieAdapter
+    private var binding: StartPageFragmentLayoutBinding? = null
+    private var upcomingMoviesAdapter: MovieAdapter = MovieAdapter()
+    private var popularMoviesAdapter: MovieAdapter = MovieAdapter()
+    private var topRatedMoviesAdapter: MovieAdapter = MovieAdapter()
 
 
     override fun onCreateView(
@@ -51,50 +51,55 @@ class StartPageFragment : Fragment() {
     }
 
     private fun setupUI() {
+        binding?.let { binding ->
 
-        val upcomingMoviesRecycler = binding.upcomingMovieRecycler
-        upcomingMoviesRecycler.layoutManager =
-            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
-        upcomingMoviesAdapter = MovieAdapter()
-        upcomingMoviesRecycler.adapter = upcomingMoviesAdapter
-        upcomingMoviesAdapter.stateRestorationPolicy =
-            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-        upcomingMoviesRecycler.addItemDecoration(
-            DividerItemDecoration(requireActivity(), LinearLayoutManager.HORIZONTAL)
-        )
+            val upcomingMoviesRecycler = binding.upcomingMovieRecycler
+            upcomingMoviesRecycler.layoutManager =
+                LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+            upcomingMoviesRecycler.adapter = upcomingMoviesAdapter
+            upcomingMoviesAdapter.stateRestorationPolicy =
+                RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+            upcomingMoviesRecycler.addItemDecoration(
+                DividerItemDecoration(requireActivity(), LinearLayoutManager.HORIZONTAL)
+            )
 
-        val popularMoviesRecycler = binding.popularMovieRecycler
-        popularMoviesRecycler.layoutManager =
-            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
-        popularMoviesAdapter = MovieAdapter()
-        popularMoviesRecycler.adapter = popularMoviesAdapter
-        popularMoviesAdapter.stateRestorationPolicy =
-            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-        popularMoviesRecycler.addItemDecoration(
-            DividerItemDecoration(requireActivity(), LinearLayoutManager.HORIZONTAL)
-        )
+            val popularMoviesRecycler = binding.popularMovieRecycler
+            popularMoviesRecycler.layoutManager =
+                LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+            popularMoviesRecycler.adapter = popularMoviesAdapter
+            popularMoviesAdapter.stateRestorationPolicy =
+                RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+            popularMoviesRecycler.addItemDecoration(
+                DividerItemDecoration(requireActivity(), LinearLayoutManager.HORIZONTAL)
+            )
 
-        val topRatedMovieRecycler = binding.topRatedMovieRecycler
-        topRatedMovieRecycler.layoutManager =
-            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
-        topRatedMoviesAdapter = MovieAdapter()
-        topRatedMovieRecycler.adapter = topRatedMoviesAdapter
-        topRatedMoviesAdapter.stateRestorationPolicy =
-            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-        topRatedMovieRecycler.addItemDecoration(
-            DividerItemDecoration(requireActivity(), LinearLayoutManager.HORIZONTAL)
-        )
-        binding.refreshButton.visibility = View.GONE
-        binding.startPageGroup.visibility = View.VISIBLE
+            val topRatedMovieRecycler = binding.topRatedMovieRecycler
+            topRatedMovieRecycler.layoutManager =
+                LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+            topRatedMovieRecycler.adapter = topRatedMoviesAdapter
+            topRatedMoviesAdapter.stateRestorationPolicy =
+                RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+            topRatedMovieRecycler.addItemDecoration(
+                DividerItemDecoration(requireActivity(), LinearLayoutManager.HORIZONTAL)
+            )
+            binding.refreshButton.visibility = View.GONE
+            binding.startPageGroup.visibility = View.VISIBLE
+        }
         setUpItemClickListeners()
     }
 
     private fun setupNoConnectionUI() {
-        binding.refreshButton.visibility = View.VISIBLE
-        binding.startPageGroup.visibility = View.GONE
-        binding.refreshButton.setOnClickListener {
-            requireActivity().recreate()
-            startPageViewModel.loadMovies()
+        binding?.let { binding ->
+            binding.refreshButton.visibility = View.VISIBLE
+            binding.startPageGroup.visibility = View.GONE
+            binding.refreshButton.setOnClickListener {
+                if (NetworkHelper(requireContext()).isNetworkConnected()) {
+                    startPageViewModel.loadMovies()
+                    setupUI()
+                    binding.refreshButton.visibility = View.GONE
+                    binding.startPageGroup.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
@@ -117,57 +122,72 @@ class StartPageFragment : Fragment() {
     }
 
     private fun setUpItemClickListeners() {
-        upcomingMoviesAdapter.itemClickListener = object : MovieAdapter.OnItemClickListener {
-            override fun onItemClick(view: View?, position: Int) {
-                val movie = upcomingMoviesAdapter.snapshot()[position] as Movie
-                val bundle = Bundle()
-                movie.id?.let { bundle.putInt(ID, it) }
-                if (NetworkHelper(requireActivity()).isNetworkConnected()) {
-                    Navigation.findNavController(binding.root)
-                        .navigate(R.id.action_startPageFragment_to_detailedMovieFragment, bundle)
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        R.string.no_internet_connection,
-                        Toast.LENGTH_SHORT
-                    ).show()
+        binding?.let { binding ->
+            upcomingMoviesAdapter.itemClickListener = object : MovieAdapter.OnItemClickListener {
+                override fun onItemClick(view: View?, position: Int) {
+                    val movie = upcomingMoviesAdapter.snapshot()[position] as Movie
+                    val bundle = Bundle()
+                    bundle.putInt(ID, movie.id)
+                    if (NetworkHelper(requireActivity()).isNetworkConnected()) {
+                        Navigation.findNavController(binding.root)
+                            .navigate(
+                                R.id.action_startPageFragment_to_detailedMovieFragment,
+                                bundle
+                            )
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            R.string.no_internet_connection,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
-        }
-        popularMoviesAdapter.itemClickListener = object : MovieAdapter.OnItemClickListener {
-            override fun onItemClick(view: View?, position: Int) {
-                val movie = popularMoviesAdapter.snapshot()[position] as Movie
-                val bundle = Bundle()
-                movie.id?.let { bundle.putInt(ID, it) }
-                if (NetworkHelper(requireActivity()).isNetworkConnected()) {
-                    Navigation.findNavController(binding.root)
-                        .navigate(R.id.action_startPageFragment_to_detailedMovieFragment, bundle)
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        R.string.no_internet_connection,
-                        Toast.LENGTH_SHORT
-                    ).show()
+            popularMoviesAdapter.itemClickListener = object : MovieAdapter.OnItemClickListener {
+                override fun onItemClick(view: View?, position: Int) {
+                    val movie = popularMoviesAdapter.snapshot()[position] as Movie
+                    val bundle = Bundle()
+                    bundle.putInt(ID, movie.id)
+                    if (NetworkHelper(requireActivity()).isNetworkConnected()) {
+                        Navigation.findNavController(binding.root)
+                            .navigate(
+                                R.id.action_startPageFragment_to_detailedMovieFragment,
+                                bundle
+                            )
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            R.string.no_internet_connection,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
-        }
-        topRatedMoviesAdapter.itemClickListener = object : MovieAdapter.OnItemClickListener {
-            override fun onItemClick(view: View?, position: Int) {
-                val movie = topRatedMoviesAdapter.snapshot()[position] as Movie
-                val bundle = Bundle()
-                movie.id?.let { bundle.putInt(ID, it) }
-                if (NetworkHelper(requireActivity()).isNetworkConnected()) {
-                    Navigation.findNavController(binding.root)
-                        .navigate(R.id.action_startPageFragment_to_detailedMovieFragment, bundle)
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        R.string.no_internet_connection,
-                        Toast.LENGTH_SHORT
-                    ).show()
+            topRatedMoviesAdapter.itemClickListener = object : MovieAdapter.OnItemClickListener {
+                override fun onItemClick(view: View?, position: Int) {
+                    val movie = topRatedMoviesAdapter.snapshot()[position] as Movie
+                    val bundle = Bundle()
+                    bundle.putInt(ID, movie.id)
+                    if (NetworkHelper(requireActivity()).isNetworkConnected()) {
+                        Navigation.findNavController(binding.root)
+                            .navigate(
+                                R.id.action_startPageFragment_to_detailedMovieFragment,
+                                bundle
+                            )
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            R.string.no_internet_connection,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
 }

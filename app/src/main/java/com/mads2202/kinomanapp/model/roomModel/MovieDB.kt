@@ -3,9 +3,8 @@ package com.mads2202.kinomanapp.model.roomModel
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.google.gson.annotations.SerializedName
 import com.mads2202.kinomanapp.model.jsonModel.moviesModel.Genres
-import com.mads2202.kinomanapp.util.dbUtil.Converters
+import com.mads2202.kinomanapp.room.Converters
 
 @Entity(tableName = "movie")
 data class MovieDB(
