@@ -4,7 +4,6 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.mads2202.kinomanapp.model.jsonModel.personModel.Person
 import com.mads2202.kinomanapp.retrofit.peopleApi.PersonRepository
-import retrofit2.Response
 
 class ActorsPostDataSource(private val personRepository: PersonRepository) :
     PagingSource<Int, Person>() {

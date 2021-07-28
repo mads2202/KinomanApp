@@ -15,7 +15,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class DetailedMovieFragmentDB : DetailedMovieFragmentParent() {
     private val viewModel: DetailedFavoriteMovieViewModel by viewModel()
-
     private lateinit var movieDB: MovieDB
 
     override fun onCreateView(
@@ -67,7 +66,6 @@ class DetailedMovieFragmentDB : DetailedMovieFragmentParent() {
         }
         setupClickListener()
     }
-
 
     private fun setupObservers() {
         setupMovieObserver()

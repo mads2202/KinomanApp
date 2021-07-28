@@ -16,7 +16,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class DetailedMovieFragment : DetailedMovieFragmentParent() {
     private val detailedMovieViewModel: DetailedMovieViewModel by viewModel()
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -85,7 +84,6 @@ class DetailedMovieFragment : DetailedMovieFragmentParent() {
             binding.detailedMoviePageProgressCircular.visibility = View.GONE
         }
         setupClickListener()
-
     }
 
 
@@ -105,7 +103,6 @@ class DetailedMovieFragment : DetailedMovieFragmentParent() {
                             movie = detailedMovie
                             bindMovie(movie)
                         }
-
                     }
                     Status.LOADING -> {
                         binding.detailedMoviePageProgressCircular.visibility = View.VISIBLE

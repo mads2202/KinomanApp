@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 class DetailedFavoriteMovieViewModel(private val movieRepositoryDB: MovieRepositoryDB) :
     ViewModel() {
 
-
     var movieId = 1
     val _detailedMovie = MutableLiveData<MovieDB>()
     val detailedMovie: LiveData<MovieDB> = _detailedMovie

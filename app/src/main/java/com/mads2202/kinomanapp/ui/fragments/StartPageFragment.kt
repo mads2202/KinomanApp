@@ -23,15 +23,12 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
-
 class StartPageFragment : Fragment() {
-
     private val startPageViewModel: StartPageViewModel by viewModel()
     private var binding: StartPageFragmentLayoutBinding? = null
     private var upcomingMoviesAdapter: MovieAdapter = MovieAdapter()
     private var popularMoviesAdapter: MovieAdapter = MovieAdapter()
     private var topRatedMoviesAdapter: MovieAdapter = MovieAdapter()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,13 +43,11 @@ class StartPageFragment : Fragment() {
         } else {
             setupNoConnectionUI()
         }
-
         return view
     }
 
     private fun setupUI() {
         binding?.let { binding ->
-
             val upcomingMoviesRecycler = binding.upcomingMovieRecycler
             upcomingMoviesRecycler.layoutManager =
                 LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
@@ -62,7 +57,6 @@ class StartPageFragment : Fragment() {
             upcomingMoviesRecycler.addItemDecoration(
                 DividerItemDecoration(requireActivity(), LinearLayoutManager.HORIZONTAL)
             )
-
             val popularMoviesRecycler = binding.popularMovieRecycler
             popularMoviesRecycler.layoutManager =
                 LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
@@ -72,7 +66,6 @@ class StartPageFragment : Fragment() {
             popularMoviesRecycler.addItemDecoration(
                 DividerItemDecoration(requireActivity(), LinearLayoutManager.HORIZONTAL)
             )
-
             val topRatedMovieRecycler = binding.topRatedMovieRecycler
             topRatedMovieRecycler.layoutManager =
                 LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)

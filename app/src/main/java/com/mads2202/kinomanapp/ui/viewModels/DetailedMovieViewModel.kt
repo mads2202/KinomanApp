@@ -18,7 +18,6 @@ class DetailedMovieViewModel(private val movieRepository: MovieRepository) : Vie
     var id: Int = 1
 
     fun loadDetailedMovie() {
-
         viewModelScope.launch {
             val response = movieRepository.getDetailedMovieInfo(id)
             _detailedMovieLiveData.postValue(Resource.loading(null))

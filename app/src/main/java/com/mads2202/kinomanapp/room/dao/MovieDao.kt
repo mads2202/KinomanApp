@@ -1,4 +1,4 @@
-package com.mads2202.kinomanapp.room.DAO
+package com.mads2202.kinomanapp.room.dao
 
 import androidx.room.*
 import com.mads2202.kinomanapp.model.roomModel.*

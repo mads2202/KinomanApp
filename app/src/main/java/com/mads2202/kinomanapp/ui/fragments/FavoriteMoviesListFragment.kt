@@ -18,7 +18,6 @@ import com.mads2202.kinomanapp.ui.adapters.FavoriteMovieAdapter
 import com.mads2202.kinomanapp.ui.adapters.MovieAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
 
-
 class FavoriteMoviesListFragment : Fragment() {
     private val favoriteMovieViewModel: FavoriteMovieViewModel by viewModel()
     private var binding: FavoriteMoviesFragmentLayoutBinding? = null

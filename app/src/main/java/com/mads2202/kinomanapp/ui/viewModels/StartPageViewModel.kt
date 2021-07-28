@@ -13,7 +13,6 @@ import com.mads2202.kinomanapp.paging.UpcomingMoviePostDataSource
 import com.mads2202.kinomanapp.retrofit.movieApi.MovieRepository
 import kotlinx.coroutines.flow.Flow
 
-
 class StartPageViewModel(private val movieRepository: MovieRepository) : ViewModel() {
 
     init {
@@ -21,9 +20,7 @@ class StartPageViewModel(private val movieRepository: MovieRepository) : ViewMod
     }
 
     lateinit var upcomingMoviesList: Flow<PagingData<Movie>>
-
     lateinit var popularMoviesList: Flow<PagingData<Movie>>
-
     lateinit var topRatedMoviesList: Flow<PagingData<Movie>>
 
     fun loadMovies() {

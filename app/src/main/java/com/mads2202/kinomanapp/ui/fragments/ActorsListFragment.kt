@@ -21,10 +21,7 @@ import com.mads2202.kinomanapp.ui.adapters.MovieAdapter
 import com.mads2202.kinomanapp.ui.adapters.PersonAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.koin.android.ext.android.bind
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ActorsListFragment : Fragment() {
@@ -38,7 +35,7 @@ class ActorsListFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.persons_list_fragment, container, false)
         binding = PersonsListFragmentBinding.bind(view)
-        personAdapter = PersonAdapter(ArrayList())
+        personAdapter = PersonAdapter()
         personAdapter.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         if (NetworkHelper(requireContext()).isNetworkConnected()) {
@@ -75,7 +72,6 @@ class ActorsListFragment : Fragment() {
 
         }
     }
-
 
     private fun setupUI() {
         binding?.let {

@@ -1,16 +1,11 @@
 package com.mads2202.kinomanapp.ui.fragments
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.databinding.DetailedMoviePageFragmentBinding
 import com.mads2202.kinomanapp.model.jsonModel.moviesModel.DetailedMovie
@@ -37,7 +32,6 @@ open class DetailedMovieFragmentParent : Fragment() {
     protected var actor4: Actor = Actor(1, "", 1)
     protected var director: Director = Director(1, "", 1)
 
-
     open fun bindMovie(movie: DetailedMovie) {
         binding?.let { binding ->
             this.movie = movie
@@ -60,7 +54,6 @@ open class DetailedMovieFragmentParent : Fragment() {
                     binding.genre3.text = movie.genres[2].name
                 }
             }
-
             binding.shortDescriptions.text = movie.overview
             Glide.with(binding.root)
                 .load("https://image.tmdb.org/t/p/original/" + movie.posterPath)
@@ -76,8 +69,6 @@ open class DetailedMovieFragmentParent : Fragment() {
             movieParticipants.crew.forEach {
                 if (it.job == getString(R.string.director)) {
                     director = Director(it.id, it.name, requireArguments().getInt(ID))
-
-
                 }
             }
             if (director.name.isNotBlank()) {
@@ -87,7 +78,6 @@ open class DetailedMovieFragmentParent : Fragment() {
                 binding.director.visibility = View.GONE
                 binding.directorLabel.visibility = View.GONE
             }
-
 
             when (movieParticipants.cast.size) {
                 0 -> {
@@ -103,8 +93,6 @@ open class DetailedMovieFragmentParent : Fragment() {
                             requireArguments().getInt(ID)
                         )
                 }
-
-
                 2 -> {
 
                     binding.actor1.text = movieParticipants.cast[0].name

@@ -1,7 +1,7 @@
 package com.mads2202.kinomanapp.room.repository
 
 import com.mads2202.kinomanapp.model.roomModel.*
-import com.mads2202.kinomanapp.room.DAO.MovieDao
+import com.mads2202.kinomanapp.room.dao.MovieDao
 
 class MovieRepositoryDB(private val movieDao: MovieDao) {
     suspend fun getMovies(): List<MovieDB> = movieDao.getMovies()
