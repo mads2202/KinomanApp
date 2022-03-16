@@ -1,21 +1,30 @@
 package com.mads2202.kinomanapp.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import com.mads2202.kinomanapp.App
 import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.databinding.DetailedMoviePageFragmentBinding
 import com.mads2202.kinomanapp.model.jsonModel.moviesModel.DetailedMovie
 import com.mads2202.kinomanapp.model.roomModel.MovieDB
 import com.mads2202.kinomanapp.ui.viewModels.DetailedFavoriteMovieViewModel
 import com.mads2202.kinomanapp.common.ID
-import org.koin.android.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 
 class DetailedMovieFragmentDB : DetailedMovieFragmentParent() {
-    private val viewModel: DetailedFavoriteMovieViewModel by viewModel()
+    @Inject
+    lateinit var factory: DetailedFavoriteMovieViewModel.DetailedFavoriteMovieViewModelFactory
+    private val viewModel: DetailedFavoriteMovieViewModel by viewModels { factory }
     private lateinit var movieDB: MovieDB
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireContext().applicationContext as App).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

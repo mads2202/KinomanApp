@@ -1,20 +1,29 @@
 package com.mads2202.kinomanapp.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
+import com.mads2202.kinomanapp.App
 import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.databinding.DetailedMoviePageFragmentBinding
 import com.mads2202.kinomanapp.ui.viewModels.DetailedMovieViewModel
 import com.mads2202.kinomanapp.common.ID
 import com.mads2202.kinomanapp.common.NetworkHelper
 import com.mads2202.kinomanapp.common.Status
-import org.koin.android.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 class DetailedMovieFragment : DetailedMovieFragmentParent() {
-    private val detailedMovieViewModel: DetailedMovieViewModel by viewModel()
+    @Inject
+    lateinit var factory: DetailedMovieViewModel.DetailedMovieViewModelFactory
+    private val detailedMovieViewModel: DetailedMovieViewModel by viewModels { factory }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireContext().applicationContext as App).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

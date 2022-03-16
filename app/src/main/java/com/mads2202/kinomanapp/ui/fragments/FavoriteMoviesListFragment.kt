@@ -1,14 +1,17 @@
 package com.mads2202.kinomanapp.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mads2202.kinomanapp.App
 import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.databinding.FavoriteMoviesFragmentLayoutBinding
 import com.mads2202.kinomanapp.model.roomModel.MovieDB
@@ -16,12 +19,18 @@ import com.mads2202.kinomanapp.ui.viewModels.FavoriteMovieViewModel
 import com.mads2202.kinomanapp.common.ID
 import com.mads2202.kinomanapp.ui.adapters.FavoriteMovieAdapter
 import com.mads2202.kinomanapp.ui.adapters.MovieAdapter
-import org.koin.android.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 class FavoriteMoviesListFragment : Fragment() {
-    private val favoriteMovieViewModel: FavoriteMovieViewModel by viewModel()
+    @Inject
+    lateinit var factory: FavoriteMovieViewModel.FavoriteMovieViewModelFactory
+    private val favoriteMovieViewModel: FavoriteMovieViewModel by viewModels { factory }
     private var binding: FavoriteMoviesFragmentLayoutBinding? = null
     private val adapter: FavoriteMovieAdapter = FavoriteMovieAdapter(arrayListOf())
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireContext().applicationContext as App).appComponent.inject(this)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

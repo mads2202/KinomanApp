@@ -1,15 +1,18 @@
 package com.mads2202.kinomanapp.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.mads2202.kinomanapp.App
 import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.databinding.DetailedActorFragmentLayoutBinding
 import com.mads2202.kinomanapp.model.jsonModel.personModel.Person
@@ -21,12 +24,19 @@ import com.mads2202.kinomanapp.ui.adapters.MovieAdapter
 import com.mads2202.kinomanapp.ui.adapters.PersonMovieAdapter
 import com.mads2202.kinomanapp.common.NetworkHelper
 import com.mads2202.kinomanapp.common.Status
-import org.koin.android.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 class DetailedActorFragment : Fragment() {
-    private val personViewModel: PersonViewModel by viewModel()
+    @Inject
+    lateinit var factory: PersonViewModel.PersonViewModelFactory
+    private val personViewModel: PersonViewModel by viewModels { factory }
     private var binding: DetailedActorFragmentLayoutBinding? = null
     private lateinit var personMovieAdapter: PersonMovieAdapter
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireContext().applicationContext as App).appComponent.inject(this)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

@@ -1,11 +1,13 @@
 package com.mads2202.kinomanapp.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
+import com.mads2202.kinomanapp.App
 import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.databinding.DetailedMoviePageFragmentBinding
 import com.mads2202.kinomanapp.model.jsonModel.moviesModel.DetailedMovie
@@ -19,11 +21,12 @@ import com.mads2202.kinomanapp.common.ID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.koin.android.ext.android.inject
+import javax.inject.Inject
 
 
 open class DetailedMovieFragmentParent : Fragment() {
-    private val movieRepositoryDB: MovieRepositoryDB by inject()
+    @Inject
+    lateinit var movieRepositoryDB: MovieRepositoryDB
     var binding: DetailedMoviePageFragmentBinding? = null
     lateinit var movie: DetailedMovie
     protected var actor1: Actor = Actor(1, "", 1)
@@ -31,6 +34,11 @@ open class DetailedMovieFragmentParent : Fragment() {
     protected var actor3: Actor = Actor(1, "", 1)
     protected var actor4: Actor = Actor(1, "", 1)
     protected var director: Director = Director(1, "", 1)
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireContext().applicationContext as App).appComponent.inject(this)
+    }
 
     open fun bindMovie(movie: DetailedMovie) {
         binding?.let { binding ->

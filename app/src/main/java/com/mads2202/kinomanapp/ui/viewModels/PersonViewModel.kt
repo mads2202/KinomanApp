@@ -1,9 +1,6 @@
 package com.mads2202.kinomanapp.ui.viewModels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.mads2202.kinomanapp.model.jsonModel.personModel.Person
 import com.mads2202.kinomanapp.model.jsonModel.personModel.PersonCrewWork
 import com.mads2202.kinomanapp.model.jsonModel.personModel.PersonRoles
@@ -11,6 +8,7 @@ import com.mads2202.kinomanapp.retrofit.peopleApi.PersonRepository
 import com.mads2202.kinomanapp.common.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class PersonViewModel(private val personRepository: PersonRepository) : ViewModel() {
     val _persons = MutableLiveData<Resource<Person>>()
@@ -54,5 +52,12 @@ class PersonViewModel(private val personRepository: PersonRepository) : ViewMode
             }
         }
 
+    }
+
+    class PersonViewModelFactory @Inject constructor(private val personRepository: PersonRepository) :
+        ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return PersonViewModel(personRepository) as T
+        }
     }
 }

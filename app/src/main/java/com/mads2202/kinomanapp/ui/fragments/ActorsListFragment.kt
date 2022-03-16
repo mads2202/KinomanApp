@@ -1,16 +1,19 @@
 package com.mads2202.kinomanapp.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mads2202.kinomanapp.App
 import com.mads2202.kinomanapp.R
 import com.mads2202.kinomanapp.databinding.PersonsListFragmentBinding
 import com.mads2202.kinomanapp.ui.viewModels.PersonListViewModel
@@ -22,12 +25,18 @@ import com.mads2202.kinomanapp.ui.adapters.PersonAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.koin.android.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 class ActorsListFragment : Fragment() {
-    private val viewModel: PersonListViewModel by viewModel()
+    @Inject
+    lateinit var factory: PersonListViewModel.PersonListViewModelFactory
+    private val viewModel: PersonListViewModel by viewModels { factory }
     var binding: PersonsListFragmentBinding? = null
     lateinit var personAdapter: PersonAdapter
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireContext().applicationContext as App).appComponent.inject(this)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

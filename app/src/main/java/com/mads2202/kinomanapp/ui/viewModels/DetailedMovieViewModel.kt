@@ -1,16 +1,14 @@
 package com.mads2202.kinomanapp.ui.viewModels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.mads2202.kinomanapp.model.jsonModel.moviesModel.DetailedMovie
 import com.mads2202.kinomanapp.model.jsonModel.moviesModel.MovieParticipantRequest
 import com.mads2202.kinomanapp.retrofit.movieApi.MovieRepository
 import com.mads2202.kinomanapp.common.Resource
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailedMovieViewModel(private val movieRepository: MovieRepository) : ViewModel() {
+class DetailedMovieViewModel (private val movieRepository: MovieRepository) : ViewModel() {
     val _detailedMovieLiveData = MutableLiveData<Resource<DetailedMovie>>()
     val detailedMovieLiveData: LiveData<Resource<DetailedMovie>> = _detailedMovieLiveData
     val _movieParticipant = MutableLiveData<Resource<MovieParticipantRequest>>()
@@ -36,6 +34,12 @@ class DetailedMovieViewModel(private val movieRepository: MovieRepository) : Vie
                 _movieParticipant.postValue(Resource.error(response.message(), null))
             }
 
+        }
+    }
+
+    class DetailedMovieViewModelFactory@Inject constructor(private val movieRepository: MovieRepository): ViewModelProvider.Factory{
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return DetailedMovieViewModel(movieRepository) as T
         }
     }
 }

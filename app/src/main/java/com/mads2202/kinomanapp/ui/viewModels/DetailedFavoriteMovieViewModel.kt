@@ -1,15 +1,13 @@
 package com.mads2202.kinomanapp.ui.viewModels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.mads2202.kinomanapp.model.roomModel.Director
 import com.mads2202.kinomanapp.model.roomModel.MovieDB
 import com.mads2202.kinomanapp.model.roomModel.MovieWithActor
 import com.mads2202.kinomanapp.room.repository.MovieRepositoryDB
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class DetailedFavoriteMovieViewModel(private val movieRepositoryDB: MovieRepositoryDB) :
     ViewModel() {
@@ -37,6 +35,13 @@ class DetailedFavoriteMovieViewModel(private val movieRepositoryDB: MovieReposit
     fun loadMovie() {
         viewModelScope.launch(Dispatchers.IO) {
             _detailedMovie.postValue(movieRepositoryDB.getMovieById(movieId))
+        }
+    }
+
+    class DetailedFavoriteMovieViewModelFactory @Inject constructor(private val movieRepositoryDB: MovieRepositoryDB) :
+        ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return DetailedFavoriteMovieViewModel(movieRepositoryDB) as T
         }
     }
 }

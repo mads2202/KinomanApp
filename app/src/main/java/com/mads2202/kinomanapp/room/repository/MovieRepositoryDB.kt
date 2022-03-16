@@ -2,8 +2,9 @@ package com.mads2202.kinomanapp.room.repository
 
 import com.mads2202.kinomanapp.model.roomModel.*
 import com.mads2202.kinomanapp.room.dao.MovieDao
+import javax.inject.Inject
 
-class MovieRepositoryDB(private val movieDao: MovieDao) {
+class MovieRepositoryDB @Inject constructor(private val movieDao: MovieDao) {
     suspend fun getMovies(): List<MovieDB> = movieDao.getMovies()
     suspend fun addMovie(movie: MovieDB) = movieDao.addMovie(movie)
     suspend fun updateMovie(movie: MovieDB) = movieDao.updateMovie(movie)
