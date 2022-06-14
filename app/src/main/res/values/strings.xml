@@ -1,3 +1,36 @@
 <resources>
     <string name="app_name">KinomanApp</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="duration">Duration:</string>
+    <string name="rating">Rating:</string>
+    <string name="release_date">Release date:</string>
+    <string name="upcoming_movie">Upcoming movies:</string>
+    <string name="popular_movie">Popular movies:</string>
+    <string name="top_rated_movie">Top rated movies:</string>
+    <string name="director_label">Director:</string>
+    <string name="actors_label">Actors:</string>
+    <string name="like">like</string>
+    <string name="share">share</string>
+    <string name="budget_label">Budget:</string>
+    <string name="genres_label">Genres</string>
+    <string name="movies">movies</string>
+    <string name="favourite_movies">favourite movies</string>
+    <string name="actors">actors</string>
+    <string name="gender_label">Gender:</string>
+    <string name="birtdate_label">Birthdate:</string>
+    <string name="deathdate_label">Deathdate</string>
+    <string name="department_label">Department:</string>
+    <string name="birthPlace">Place of birth:</string>
+    <string name="biography_label">Biography:</string>
+    <string name="films_label">Films:</string>
+    <string name="refresh">No Internet Connection.Refresh!</string>
+    <string name="already_in_db">already favorite</string>
+    <string name="role">Role:</string>
+    <string name="dislike">dislike</string>
+    <string name="director">Director</string>
+    <string name="place_of_birth">Place of birth</string>
+    <string name="unknown">unknown</string>
+    <string name="gender_man">man</string>
+    <string name="gender_woman">woman</string>
+    <string name="alive">alive</string>
 </resources>

@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/start_guideline"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/end_guideline"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="16dp" />
+
+        <TextView
+            android:id="@+id/actor_name"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            app:layout_constraintEnd_toStartOf="@id/actor_photo"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintStart_toStartOf="@id/start_guideline"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_goneMarginEnd="0dp"
+            tools:text="Dmitry Malyshev" />
+
+        <ImageView
+            android:id="@+id/actor_photo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toTopOf="@id/title_poster_bottom_barrier"
+            app:layout_constraintEnd_toStartOf="@id/end_guideline"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="@id/start_guideline"
+            app:layout_constraintTop_toTopOf="@+id/actor_name"
+            app:layout_constraintWidth_max="100dp"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/actor_gender_label"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/gender_label"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintEnd_toStartOf="@id/end_guideline"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/start_guideline"
+            app:layout_constraintTop_toBottomOf="@+id/actor_name"
+            app:layout_constraintWidth_default="wrap" />
+
+        <TextView
+            android:id="@+id/gender"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toStartOf="@id/actor_photo"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/actor_gender_label"
+            app:layout_constraintTop_toTopOf="@id/actor_gender_label"
+            app:layout_goneMarginEnd="0dp"
+            tools:text="man" />
+
+        <TextView
+            android:id="@+id/birthdate_label"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/birtdate_label"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintEnd_toStartOf="@id/end_guideline"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/start_guideline"
+            app:layout_constraintTop_toBottomOf="@+id/actor_gender_label"
+            app:layout_constraintWidth_default="wrap" />
+
+        <TextView
+            android:id="@+id/birthdate"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toStartOf="@id/actor_photo"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/birthdate_label"
+            app:layout_constraintTop_toTopOf="@id/birthdate_label"
+            app:layout_goneMarginEnd="0dp"
+            tools:text="22.02.1997" />
+
+        <TextView
+            android:id="@+id/deathdate_label"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/deathdate_label"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintEnd_toStartOf="@id/end_guideline"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/start_guideline"
+            app:layout_constraintTop_toBottomOf="@+id/birthdate_label"
+            app:layout_constraintWidth_default="wrap" />
+
+        <TextView
+            android:id="@+id/deathdate"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toStartOf="@id/actor_photo"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/deathdate_label"
+            app:layout_constraintTop_toTopOf="@id/deathdate_label"
+            app:layout_goneMarginEnd="0dp"
+            tools:text="alive" />
+
+        <TextView
+            android:id="@+id/department_label"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/department_label"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintEnd_toStartOf="@id/end_guideline"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/start_guideline"
+            app:layout_constraintTop_toBottomOf="@+id/deathdate_label"
+            app:layout_constraintWidth_default="wrap" />
+
+        <TextView
+            android:id="@+id/department"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toStartOf="@id/actor_photo"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/department_label"
+            app:layout_constraintTop_toTopOf="@id/department_label"
+            app:layout_goneMarginEnd="0dp"
+            tools:text="android dev" />
+
+        <TextView
+            android:id="@+id/place_of_birth_label"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/birthPlace"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintEnd_toStartOf="@id/end_guideline"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/start_guideline"
+            app:layout_constraintTop_toBottomOf="@+id/department_label"
+            app:layout_constraintWidth_default="wrap" />
+
+        <TextView
+            android:id="@+id/place_of_birth"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toStartOf="@id/actor_photo"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/place_of_birth_label"
+            app:layout_constraintTop_toTopOf="@id/place_of_birth_label"
+            app:layout_goneMarginEnd="0dp"
+            tools:text="android dev" />
+
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/title_poster_bottom_barrier"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="actor_photo, actor_name,actor_gender_label,gender,
+            birthdate,birthdate_label, deathdate,deathdate_label,department,department_label,
+            place_of_birth,place_of_birth_label" />
+
+        <TextView
+            android:id="@+id/biography_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/biography_label"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toStartOf="@id/end_guideline"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/start_guideline"
+            app:layout_constraintTop_toBottomOf="@id/title_poster_bottom_barrier"
+            app:layout_constraintWidth_default="wrap" />
+
+
+        <TextView
+            android:id="@+id/short_descriptions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toStartOf="@id/end_guideline"
+            app:layout_constraintStart_toEndOf="@id/start_guideline"
+            app:layout_constraintTop_toBottomOf="@+id/biography_label"
+            tools:text="move_short_description" />
+
+        <TextView
+            android:id="@+id/films_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/films_label"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toStartOf="@id/end_guideline"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/start_guideline"
+            app:layout_constraintTop_toBottomOf="@+id/short_descriptions"
+            app:layout_constraintWidth_default="wrap" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/person_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/films_label" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/actor_films_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/films_label" />
+
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/detailed_actor_page_elements_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:constraint_referenced_ids="actor_photo,actor_name,actor_gender_label,gender,
+                biography_label,birthdate,department_label,department,deathdate_label,deathdate,
+                place_of_birth_label,place_of_birth,biography_label,short_descriptions,films_label,
+                actor_films_list,person_recycler_view,birthdate_label" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_circular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/refresh_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/refresh"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
